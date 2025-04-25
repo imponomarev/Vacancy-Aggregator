@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: vacancy-aggregator
+  main:
+    banner-mode: off
+
+feign:
+  httpclient:
+    enabled: true
+
+hh:
+  api:
+    base-url: https://api.hh.ru
+    rate-limit-per-sec: 10
+
+sj:
+  api:
+    base-url: https://api.superjob.ru
+    client-id: 3837
+    client-secret: v3.r.139026421.3de4f97b46a6860f165ba4666eff1d45f2eb9fd7.dd735314cb65b1626dd0c6f4af1a714fd2ffc285
+#    token-url: https://api.superjob.ru/2.0/oauth2/password/
+    rate-limit-per-min: 120
+
+resilience4j:
+  ratelimiter:
+    instances:
+      hh:
+        limit-for-period: ${hh.api.rate-limit-per-sec}
+        limit-refresh-period: 1s
+        timeout-duration: 0

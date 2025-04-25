@@ -1,0 +1,21 @@
+package com.example.vacancy_aggregator.data;
+
+import lombok.Builder;
+import lombok.Data;
+
+import java.time.OffsetDateTime;
+
+@Data
+@Builder
+public class Vacancy {
+    private String source;       // "hh"
+    private String externalId;   // 7760476
+    private String title;
+    private String company;
+    private String city;
+    private Integer salaryFrom;
+    private Integer salaryTo;
+    private String currency;
+    private OffsetDateTime publishedAt;
+    private String url;
+}
