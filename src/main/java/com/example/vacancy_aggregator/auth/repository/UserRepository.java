@@ -1,6 +1,7 @@
-package com.example.vacancy_aggregator.data.repository;
+package com.example.vacancy_aggregator.auth.repository;
 
-import com.example.vacancy_aggregator.data.entity.User;
+
+import com.example.vacancy_aggregator.auth.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

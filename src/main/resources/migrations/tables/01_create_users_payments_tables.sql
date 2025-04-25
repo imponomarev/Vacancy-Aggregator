@@ -9,6 +9,7 @@ create table users
     role       varchar(32)  not null, -- "FREE", "PRO"
     created_at timestamp    not null default now()
 );
+--rollback drop table users
 
 create table payments
 (
@@ -18,3 +19,5 @@ create table payments
     status         varchar(32)  not null,
     paid_at        timestamp
 );
+--rollback drop table payments
+

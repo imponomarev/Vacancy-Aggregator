@@ -1,4 +1,4 @@
-package com.example.vacancy_aggregator.data.entity;
+package com.example.vacancy_aggregator.auth.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import lombok.Setter;
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false)
