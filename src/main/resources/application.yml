@@ -3,6 +3,17 @@ spring:
     name: vacancy-aggregator
   main:
     banner-mode: off
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  liquibase:
+    change-log: classpath:migrations/master.xml
+    enabled: true
 
 feign:
   httpclient:
