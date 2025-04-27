@@ -4,38 +4,41 @@ import com.example.vacancy_aggregator.auth.entity.User;
 import com.example.vacancy_aggregator.auth.repository.UserRepository;
 import com.example.vacancy_aggregator.auth.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-
-import static org.springframework.http.HttpStatus.CONFLICT;
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
-    private final UserRepository repo;
-    private final PasswordEncoder enc;
-    private final JwtUtil jwt;
 
-    @PostMapping("/signup")
-    public void signup(@RequestBody AuthDto dto) {
-        if (repo.findByEmail(dto.email()).isPresent()) throw new ResponseStatusException(CONFLICT);
-        var u = new User();
-        u.setEmail(dto.email());
-        u.setPwdHash(enc.encode(dto.password()));
-        repo.save(u);
+    private final UserRepository users;
+    private final PasswordEncoder encoder;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtil util;
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestParam String email, @RequestParam String pwd) {
+
+        if (users.existsByEmail(email)) {
+            return ResponseEntity.badRequest().body("user exists");
+        }
+
+        User u = new User();
+        u.setEmail(email);
+        u.setPwdHash(encoder.encode(pwd));
+        users.save(u);
+
+        return ResponseEntity.ok("created");
     }
 
-    @PostMapping("/signin")
-    public TokenDto signin(@RequestBody AuthDto dto) {
-        var u = repo.findByEmail(dto.email()).orElseThrow(() -> new ResponseStatusException(UNAUTHORIZED));
-        if (!enc.matches(dto.password(), u.getPwdHash())) throw new ResponseStatusException(UNAUTHORIZED);
-        return new TokenDto(jwt.generate(u));
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String pwd) {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, pwd));
+        String jwt = util.generate(email);
+        return ResponseEntity.ok(jwt);
     }
 }
-

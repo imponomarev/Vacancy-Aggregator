@@ -1,32 +1,35 @@
 package com.example.vacancy_aggregator.auth.security;
 
-import com.example.vacancy_aggregator.auth.entity.User;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 
-@Component
-@RequiredArgsConstructor
-public class JwtUtil {
-    @Value("${jwt.secret}") String secret;
-    private final long TTL = Duration.ofHours(24).toMillis();
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
-    public String generate(User u){
-        var now = Instant.now();
+import java.security.Key;
+
+@Component
+public class JwtUtil {
+
+    // лучше вынести в application.yaml / secrets
+    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+    public String generate(String username) {
+        Instant now = Instant.now();
         return Jwts.builder()
-                .subject(u.getId().toString())
-                .claim("role", u.getRole().name())
-                .issuedAt(Date.from(now))
-                .expiration(Date.from(now.plusMillis(TTL)))
-                .signWith(Keys.hmacShaKeyFor(secret.getBytes()), SignatureAlgorithm.HS256)
+                .setSubject(username)
+                .setIssuedAt(Date.from(now))
+                .setExpiration(Date.from(now.plusSeconds(60 * 60 * 24))) // 24h
+                .signWith(key)
                 .compact();
     }
-    public Jws<Claims> parse(String token){
-        return Jwts.parser().setSigningKey(secret.getBytes()).build().parseSignedClaims(token);
+
+    public String extractUsername(String token) {
+        return Jwts.parserBuilder().setSigningKey(key).build()
+                .parseClaimsJws(token).getBody().getSubject();
     }
 }
 

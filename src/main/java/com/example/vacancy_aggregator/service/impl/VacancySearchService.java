@@ -28,8 +28,3 @@ public class VacancySearchService {
                 .toList();
     }
 }
-
-// return providers.parallelStream()
-//                .flatMap(p -> p.search(q).stream())
-//        .sorted(Comparator.comparing(Vacancy::getPublishedAt).reversed())
-//        .toList();

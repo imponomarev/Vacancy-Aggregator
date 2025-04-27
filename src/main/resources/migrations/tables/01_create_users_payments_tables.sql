@@ -13,11 +13,12 @@ create table users
 
 create table payments
 (
-    id             bigserial primary key,
-    user_id        bigint       not null references users (id),
-    stripe_session varchar(120) not null unique,
-    status         varchar(32)  not null,
-    paid_at        timestamp
+    id            bigserial primary key,
+    user_id       bigint      not null references users (id),
+    yk_payment_id varchar(64) not null,
+    amount        integer     not null default 0,
+    status        varchar(32) not null,
+    paid_at       timestamp
 );
 --rollback drop table payments
 

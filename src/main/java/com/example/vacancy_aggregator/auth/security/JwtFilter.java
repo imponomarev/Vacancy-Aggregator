@@ -1,19 +1,49 @@
 package com.example.vacancy_aggregator.auth.security;
 
-import org.springframework.context.annotation.Bean;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-public class JwtFilter {
+import java.io.IOException;
 
-    @Bean
-    SecurityFilterChain api(HttpSecurity http, JwtUtil jwt) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(reg -> reg
-                        .requestMatchers("/auth/**","/webhook/**").permitAll()
-                        .requestMatchers("/vacancies/**").hasAnyRole("FREE","PRO")
-                        .anyRequest().denyAll())
-                .addFilterBefore(new JwtFilter(jwt), UsernamePasswordAuthenticationFilter.class);
+@Component
+@RequiredArgsConstructor
+public class JwtFilter extends OncePerRequestFilter {
 
-        return http.build();
+    private final JwtUtil util;
+    private final UserDetailsService uds;
+
+    @Override
+    protected void doFilterInternal(
+            HttpServletRequest req,
+            HttpServletResponse res,
+            FilterChain chain)
+            throws ServletException, IOException {
+
+        String auth = req.getHeader("Authorization");
+        if (StringUtils.hasText(auth) && auth.startsWith("Bearer ")) {
+            String token = auth.substring(7);
+            String username = util.extractUsername(token);
+
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                var ud = uds.loadUserByUsername(username);
+
+                var authTok = new UsernamePasswordAuthenticationToken(
+                        ud, null, ud.getAuthorities());
+                authTok.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
+
+                SecurityContextHolder.getContext().setAuthentication(authTok);
+            }
+        }
+        chain.doFilter(req, res);
     }
 }

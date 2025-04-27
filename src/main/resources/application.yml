@@ -17,6 +17,8 @@ spring:
 
 feign:
   httpclient:
+    enabled: false
+  okhttp:
     enabled: true
 
 hh:
@@ -29,8 +31,14 @@ sj:
     base-url: https://api.superjob.ru
     client-id: 3837
     client-secret: v3.r.139026421.3de4f97b46a6860f165ba4666eff1d45f2eb9fd7.dd735314cb65b1626dd0c6f4af1a714fd2ffc285
-#    token-url: https://api.superjob.ru/2.0/oauth2/password/
+    #    token-url: https://api.superjob.ru/2.0/oauth2/password/
     rate-limit-per-min: 120
+
+yookassa:
+  shop-id: "test-shop-id"
+  secret-key: "test-secret-key"
+  webhook-secret: "test-webhook"
+  return-url: "https://example.com/payment/return"
 
 resilience4j:
   ratelimiter:
@@ -39,3 +47,7 @@ resilience4j:
         limit-for-period: ${hh.api.rate-limit-per-sec}
         limit-refresh-period: 1s
         timeout-duration: 0
+
+logging:
+  level:
+    com.example.vacancy_aggregator.client.hh.HhFeign: DEBUG

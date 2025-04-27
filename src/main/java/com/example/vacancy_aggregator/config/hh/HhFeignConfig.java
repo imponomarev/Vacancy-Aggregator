@@ -1,37 +1,32 @@
 package com.example.vacancy_aggregator.config.hh;
 
-import io.github.resilience4j.ratelimiter.RateLimiterConfig;
-import org.springframework.beans.factory.annotation.Value;
+import feign.okhttp.OkHttpClient;
+import okhttp3.Interceptor;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.time.Duration;
+import java.io.IOException;
 
 @Configuration
 public class HhFeignConfig {
 
-    @Value("${hh.api.base-url}")
-    private String baseUrl;
-
     @Bean
-    public RateLimiterConfig hhRateConfig(@Value("${hh.api.rate-limit-per-sec}") int limit) {
-        return RateLimiterConfig.custom()
-                .limitForPeriod(limit)
-                .limitRefreshPeriod(Duration.ofSeconds(1))
-                .timeoutDuration(Duration.ofMillis(500))
+    public OkHttpClient feignOkHttpClient() {
+        okhttp3.OkHttpClient okHttp3Client = new okhttp3.OkHttpClient.Builder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request original = chain.request();
+                        Request modified = original.newBuilder()
+                                .removeHeader("Authorization")
+                                .build();
+                        return chain.proceed(modified);
+                    }
+                })
                 .build();
-    }
 
-//    @Bean
-//    public HhFeign hhFeignClient(RateLimiterConfig config) {
-//        RateLimiter limiter = RateLimiter.of("hh", config);
-//
-//        Supplier<HhFeign> supplier = () -> Feign.builder()
-//                .client(new ApacheHttpClient())
-//                .decoder(new JacksonDecoder())
-//                .target(HhFeign.class, baseUrl);
-//
-//        Supplier<HhFeign> decorated = RateLimiter.decorateSupplier(limiter, supplier);
-//        return decorated.get();
-//    }
+        return new OkHttpClient(okHttp3Client);
+    }
 }
