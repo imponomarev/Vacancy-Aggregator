@@ -50,4 +50,8 @@ resilience4j:
 
 logging:
   level:
-    com.example.vacancy_aggregator.client.hh.HhFeign: DEBUG
+    com.example.vacancy_aggregator: DEBUG
+
+jwt:
+  secret: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpLnBvbm9tYXJldi4xOTkxQGdtYWlsLmNvbSIsImlhdCI6MTc0NTg0MTQ4NCwiZXhwIjoxNzQ1OTI3ODg0fQ.m1cayC5FL6juW4Y5wuFW8QEUB0r0MSrJ2jcOvdsCQ3o
+  expiration: 86400

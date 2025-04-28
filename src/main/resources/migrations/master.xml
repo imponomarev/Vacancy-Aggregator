@@ -7,4 +7,5 @@
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <include file="migrations/tables/01_create_users_payments_tables.sql"/>
+    <include file="migrations/tables/02_create_table_user_favorites.sql"/>
 </databaseChangeLog>
