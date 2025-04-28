@@ -1,0 +1,57 @@
+package com.example.vacancy_aggregator.service.impl;
+
+import com.example.vacancy_aggregator.client.avito.AvitoFeign;
+import com.example.vacancy_aggregator.data.Vacancy;
+import com.example.vacancy_aggregator.data.util.AvitoMapper;
+import com.example.vacancy_aggregator.dto.avito.AvitoItemResponse;
+import com.example.vacancy_aggregator.dto.avito.AvitoSearchResponse;
+import com.example.vacancy_aggregator.location.service.impl.AvitoLocationService;
+import com.example.vacancy_aggregator.service.VacancyProvider;
+import com.example.vacancy_aggregator.service.VacancyQuery;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class AvitoProvider implements VacancyProvider {
+
+    private final AvitoFeign feign;
+    private final AvitoMapper mapper;
+    private final AvitoLocationService avitoLoc;
+
+    @Override
+    public String providerName() {
+        return "avito";
+    }
+
+    @Override
+    @RateLimiter(name = "avito")
+    public List<Vacancy> search(VacancyQuery query) {
+
+        int region = avitoLoc.findRegionId(query.area())
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Unknown Avito region: " + query.area()));
+
+        AvitoSearchResponse resp = feign.search(
+                query.text(),
+                query.page(),
+                query.perPage(),
+                region);
+
+        return Arrays.stream(resp.result())
+                .map(mapper::toVacancy)
+                .toList();
+    }
+
+    @Override
+    @RateLimiter(name = "avito")
+    public Vacancy getById(String externalId) {
+        AvitoItemResponse dto = feign.byId(externalId);
+        return mapper.toVacancy(dto);
+    }
+
+}

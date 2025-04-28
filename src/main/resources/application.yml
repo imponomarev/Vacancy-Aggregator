@@ -34,6 +34,15 @@ sj:
     #    token-url: https://api.superjob.ru/2.0/oauth2/password/
     rate-limit-per-min: 120
 
+avito:
+  api:
+    base-url: https://api.avito.ru
+    client-id:  z9Iv_A5T8Yyhxxst4ZWN
+    client-secret: 46HVvIoGhc4lOzJszoFtgHDx2bTzHXFn_kIuGM-V
+    rate-limit-per-sec: 5
+  locations:
+    url: https://autoload.avito.ru/format/Locations.xml
+
 yookassa:
   shop-id: "test-shop-id"
   secret-key: "test-secret-key"

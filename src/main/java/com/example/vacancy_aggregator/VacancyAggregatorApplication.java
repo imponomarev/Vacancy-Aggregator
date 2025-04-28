@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableFeignClients(
         basePackages = {
                 "com.example.vacancy_aggregator.client",
-                "com.example.vacancy_aggregator.auth.sj",
+                "com.example.vacancy_aggregator.auth.*",
         }
 )
 @EnableScheduling

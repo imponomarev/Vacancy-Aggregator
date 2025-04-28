@@ -26,7 +26,9 @@ public class HhProvider implements VacancyProvider {
     }
 
     @Override
-    public String providerName() { return "hh"; }
+    public String providerName() {
+        return "hh";
+    }
 
     @Override
     @io.github.resilience4j.ratelimiter.annotation.RateLimiter(name = "hh")

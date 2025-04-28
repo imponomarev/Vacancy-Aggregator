@@ -3,6 +3,7 @@ package com.example.vacancy_aggregator.location.data;
 public record Location(
         String hhId,
         Long sjId,
+        Integer avitoId,
         String name) {
 
 }

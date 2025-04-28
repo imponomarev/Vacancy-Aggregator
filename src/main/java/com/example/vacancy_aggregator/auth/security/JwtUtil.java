@@ -8,7 +8,6 @@ import java.time.Instant;
 import java.util.Date;
 
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 import java.security.Key;

@@ -19,6 +19,9 @@ public class InMemoryLocationRepository implements LocationRepository {
     private final Cache<String, Location> byName =
             Caffeine.newBuilder().expireAfterWrite(Duration.ofDays(2)).build();
 
+    private final Cache<Integer, Location> byAvitoId =
+            Caffeine.newBuilder().expireAfterWrite(Duration.ofDays(2)).build();
+
     @Override
     public Optional<Location> byHhId(String hh) {
         return Optional.ofNullable(byHh.getIfPresent(hh));
@@ -27,6 +30,10 @@ public class InMemoryLocationRepository implements LocationRepository {
     @Override
     public Optional<Location> bySjId(Long sj) {
         return Optional.ofNullable(bySj.getIfPresent(sj));
+    }
+
+    public Optional<Location> byAvitoId(Integer avitoId) {
+        return Optional.ofNullable(byAvitoId.getIfPresent(avitoId));
     }
 
     @Override
@@ -38,6 +45,7 @@ public class InMemoryLocationRepository implements LocationRepository {
     public void save(Location loc) {
         if (loc.hhId() != null) byHh.put(loc.hhId(), loc);
         if (loc.sjId() != null) bySj.put(loc.sjId(), loc);
+        if (loc.avitoId() != null) byAvitoId.put(loc.avitoId(), loc);
         byName.put(loc.name().toLowerCase(), loc);
     }
 

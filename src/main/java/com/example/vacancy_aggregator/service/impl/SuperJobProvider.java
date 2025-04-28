@@ -25,10 +25,12 @@ public class SuperJobProvider implements VacancyProvider {
     private final LocationDirectory locDir;
 
     @Override
-    public String providerName() { return "sj"; }
+    public String providerName() {
+        return "sj";
+    }
 
     @Override
-    @RateLimiter(name="sj")
+    @RateLimiter(name = "sj")
     public List<Vacancy> search(VacancyQuery query) {
 
         String sjTown = locDir.resolve(query.area())

@@ -20,6 +20,7 @@ public class LocationDirectory {
     private final HhSuggestFeign hh;
     private final SjDictFeign sj;
     private final LocationRepository repo;
+    private final AvitoLocationService avito;
 
 
     /**
@@ -27,7 +28,8 @@ public class LocationDirectory {
      * 1) ищем по hhId,
      * 2) по sjId,
      * 3) по имени,
-     * 4) если не нашли — пытаемся достать из API и закешировать.
+     * 4) по avitoId,
+     * 5) попытка через HH/SJ API.
      */
     public Optional<Location> resolve(String any) {
         // 1. По hh-ID (строка):
@@ -44,9 +46,29 @@ public class LocationDirectory {
         var byName = repo.byName(name);
         if (byName.isPresent()) return byName;
 
-        // 4. Ни в одном не нашли — пробуем получить через API
-        Location loc = fetchAndCache(name);
-        return Optional.ofNullable(loc);
+        // 4) ищем по Avito-region-id
+        Optional<Integer> byAvito = avito.findRegionId(name);
+        if (byAvito.isPresent()) {
+            int aid = byAvito.get();
+            return repo.byAvitoId(aid)
+                    .or(() -> {
+                        // создаём и кешируем новую локацию, avitoId известен, остальные — null
+                        Location loc = new Location(
+                                null,     // hhId
+                                null,     // sjId
+                                aid,      // avitoId
+                                name      // human-readable name
+                        );
+                        repo.save(loc);
+                        return Optional.of(loc);
+                    });
+        }
+
+        // 5) fallback: пробуем через HH / SJ API
+        Location fetched = fetchAndCache(name);
+        return Optional.ofNullable(fetched);
+
+
     }
 
     private Location fetchAndCache(String name) {
@@ -65,7 +87,14 @@ public class LocationDirectory {
                                 .map(SjTownResponse.Item::id)
                                 .findFirst()
                                 .orElse(null);
-                        Location loc = new Location(hhId, sjId, name);
+
+                        // сохраняем в кеш
+                        Location loc = new Location(
+                                hhId,    // hhId
+                                sjId,    // sjId
+                                null,    // avitoId пока неизвестен
+                                name
+                        );
                         repo.save(loc);
                         return loc;
                     }
@@ -80,7 +109,12 @@ public class LocationDirectory {
             SjTownResponse sjResp = sj.towns(name, 1);
             for (var t : sjResp.objects()) {
                 if (t.title().equalsIgnoreCase(name)) {
-                    Location loc = new Location(null, t.id(), name);
+                    Location loc = new Location(
+                            null,       // no hhId
+                            t.id(),     // sjId
+                            null,       // no avitoId
+                            name
+                    );
                     repo.save(loc);
                     return loc;
                 }
