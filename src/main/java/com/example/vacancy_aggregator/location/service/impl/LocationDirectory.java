@@ -22,111 +22,88 @@ public class LocationDirectory {
     private final LocationRepository repo;
     private final AvitoLocationService avito;
 
-
     /**
-     * Универсальный резолвинг с lazy-loading:
-     * 1) ищем по hhId,
-     * 2) по sjId,
-     * 3) по имени,
-     * 4) по avitoId,
-     * 5) попытка через HH/SJ API.
+     * Пытается найти или получить заново и закэшировать Location для заданного any:
+     * – any может быть hh-ID, sj-ID (число в строке) или человекочитаемым названием.
      */
     public Optional<Location> resolve(String any) {
-        // 1. По hh-ID (строка):
-        var byHh = repo.byHhId(any);
-        if (byHh.isPresent()) return byHh;
 
-        // 2. По SJ-ID (число в строке):
-        Optional<Location> bySj = tryParseLong(any)
-                .flatMap(repo::bySjId);
-        if (bySj.isPresent()) return bySj;
+        if (any == null) {
+            return Optional.empty();
+        }
 
-        // 3. По названию:
         String name = any.trim();
-        var byName = repo.byName(name);
-        if (byName.isPresent()) return byName;
 
-        // 4) ищем по Avito-region-id
-        Optional<Integer> byAvito = avito.findRegionId(name);
-        if (byAvito.isPresent()) {
-            int aid = byAvito.get();
-            return repo.byAvitoId(aid)
-                    .or(() -> {
-                        // создаём и кешируем новую локацию, avitoId известен, остальные — null
-                        Location loc = new Location(
-                                null,     // hhId
-                                null,     // sjId
-                                aid,      // avitoId
-                                name      // human-readable name
-                        );
-                        repo.save(loc);
-                        return Optional.of(loc);
-                    });
+        if (name.isEmpty()) {
+            return Optional.empty();
         }
 
-        // 5) fallback: пробуем через HH / SJ API
-        Location fetched = fetchAndCache(name);
-        return Optional.ofNullable(fetched);
+        // 1) Пробуем найти в кеше по hhId, sjId, name или avitoId
+        Optional<Location> fromCache = repo.byHhId(name)
+                .or(() -> tryParseLong(name).flatMap(repo::bySjId))
+                .or(() -> repo.byName(name))
+                .or(() -> avito.findRegionId(name).flatMap(repo::byAvitoId));
 
+        if (fromCache.isPresent()) {
+            return fromCache;
+        }
 
+        // 2) Никого нет в кеше — дергаем все три API
+        String hhId = fetchHhId(name);
+        Long sjId = fetchSjId(name);
+        Integer avitoId = avito.findRegionId(name).orElse(null);
+
+        // 3) Если ни один из API не нашёл ничего — возвращаем пустое
+        if (hhId == null && sjId == null && avitoId == null) {
+            return Optional.empty();
+        }
+
+        // 4) Собираем и сохраняем новую запись
+        Location loc = new Location(hhId, sjId, avitoId, name);
+        repo.save(loc);
+        return Optional.of(loc);
     }
 
-    private Location fetchAndCache(String name) {
-        // a) hh.suggest требует минимум 2 символа
-        if (name.length() >= 2) {
-            try {
-                SuggestAreaResponse resp = hh.suggest(name, "RU");
-                for (var item : resp.items()) {
-                    if (item.text().equalsIgnoreCase(name)) {
-                        String hhId = item.id();
-
-                        // b) подгружаем SJ-ID по названию через sj.towns
-                        SjTownResponse sjResp = sj.towns(name, 1);
-                        Long sjId = sjResp.objects().stream()
-                                .filter(t -> t.title().equalsIgnoreCase(name))
-                                .map(SjTownResponse.Item::id)
-                                .findFirst()
-                                .orElse(null);
-
-                        // сохраняем в кеш
-                        Location loc = new Location(
-                                hhId,    // hhId
-                                sjId,    // sjId
-                                null,    // avitoId пока неизвестен
-                                name
-                        );
-                        repo.save(loc);
-                        return loc;
-                    }
-                }
-            } catch (Exception e) {
-                log.warn("Не удалось подгрузить локацию для '{}': {}", name, e.getMessage());
-            }
+    /**
+     * Вызывает HH-Suggest, возвращает первый точный match по text==name или null.
+     */
+    private String fetchHhId(String name) {
+        if (name.length() < 2) {
+            return null;
         }
-
-        // c) как запасной вариант — только SJ
         try {
-            SjTownResponse sjResp = sj.towns(name, 1);
-            for (var t : sjResp.objects()) {
-                if (t.title().equalsIgnoreCase(name)) {
-                    Location loc = new Location(
-                            null,       // no hhId
-                            t.id(),     // sjId
-                            null,       // no avitoId
-                            name
-                    );
-                    repo.save(loc);
-                    return loc;
-                }
-            }
+            SuggestAreaResponse resp = hh.suggest(name, "RU");
+            return resp.items().stream()
+                    .filter(i -> i.text().equalsIgnoreCase(name))
+                    .map(i -> i.id())
+                    .findFirst()
+                    .orElse(null);
         } catch (Exception e) {
-            log.warn("Не удалось подгрузить sj-локацию для '{}': {}", name, e.getMessage());
+            log.warn("HH-suggest failed for '{}': {}", name, e.getMessage());
+            return null;
         }
-
-        // ни один API не вернул — оставляем пустым
-        return null;
     }
 
+    /**
+     * Вызывает SJ-Towns, возвращает первый точный match по title==name или null.
+     */
+    private Long fetchSjId(String name) {
+        try {
+            SjTownResponse resp = sj.towns(name, 1);
+            return resp.objects().stream()
+                    .filter(t -> t.title().equalsIgnoreCase(name))
+                    .map(SjTownResponse.Item::id)
+                    .findFirst()
+                    .orElse(null);
+        } catch (Exception e) {
+            log.warn("SJ-towns failed for '{}': {}", name, e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Пытается распарсить строку в Long.
+     */
     private Optional<Long> tryParseLong(String s) {
         try {
             return Optional.of(Long.parseLong(s));

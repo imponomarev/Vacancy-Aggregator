@@ -10,5 +10,4 @@ public interface LocationRepository {
     Optional<Location> byAvitoId(Integer avitoId);
     Optional<Location>    byName(String name);
     void                  save(Location loc);
-    Iterable<Location>    findAll();
 }

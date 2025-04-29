@@ -48,9 +48,4 @@ public class InMemoryLocationRepository implements LocationRepository {
         if (loc.avitoId() != null) byAvitoId.put(loc.avitoId(), loc);
         byName.put(loc.name().toLowerCase(), loc);
     }
-
-    @Override
-    public Iterable<Location> findAll() {
-        return byName.asMap().values();
-    }
 }

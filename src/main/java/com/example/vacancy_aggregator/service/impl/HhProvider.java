@@ -11,6 +11,7 @@ import com.example.vacancy_aggregator.service.VacancyProvider;
 import com.example.vacancy_aggregator.service.VacancyQuery;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HhProvider implements VacancyProvider {
@@ -34,9 +35,12 @@ public class HhProvider implements VacancyProvider {
     @io.github.resilience4j.ratelimiter.annotation.RateLimiter(name = "hh")
     public List<Vacancy> search(VacancyQuery query) {
 
-        String hhArea = locDir.resolve(query.area())
-                .map(Location::hhId)
-                .orElse(query.area());
+        String rawArea = query.area();
+        String hhArea = locDir.resolve(rawArea)
+                .flatMap(loc -> Optional.ofNullable(loc.hhId()))
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Не удалось определить HH-region-id для: " + rawArea)
+                );
 
         HhSearchResponse response = client.search(
                 query.text(),

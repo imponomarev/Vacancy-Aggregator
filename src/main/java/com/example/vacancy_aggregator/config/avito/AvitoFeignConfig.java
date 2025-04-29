@@ -1,12 +1,12 @@
 package com.example.vacancy_aggregator.config.avito;
 
-import com.example.vacancy_aggregator.auth.avito.AvitoTokenService;
+import com.example.vacancy_aggregator.auth.avito.AvitoFeignOAuth2Interceptor;
 import feign.RequestInterceptor;
-import feign.RequestTemplate;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 
 import java.time.Duration;
 
@@ -14,13 +14,12 @@ import java.time.Duration;
 @RequiredArgsConstructor
 public class AvitoFeignConfig {
 
-    private final AvitoTokenService ts;
-    private final AvitoProps        props;
+    private final AvitoProps props;
+    private final OAuth2AuthorizedClientManager authClientManager;
 
     @Bean
-    public RequestInterceptor bearer() {
-        return (RequestTemplate tpl) ->
-                tpl.header("Authorization", "Bearer " + ts.token());
+    public RequestInterceptor avitoOAuth2Interceptor() {
+        return new AvitoFeignOAuth2Interceptor(authClientManager);
     }
 
     @Bean

@@ -14,6 +14,23 @@ spring:
   liquibase:
     change-log: classpath:migrations/master.xml
     enabled: true
+  security:
+    oauth2:
+      client:
+        registration:
+          avito:
+            client-id: ${avito.api.client-id}
+            client-secret: ${avito.api.client-secret}
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/avito"
+            scope:
+              - job:vacancy
+              - job:write
+              - job:negotiations
+        provider:
+          avito:
+            authorization-uri: https://avito.ru/oauth/authorize
+            token-uri: https://api.avito.ru/token/
 
 feign:
   httpclient:
