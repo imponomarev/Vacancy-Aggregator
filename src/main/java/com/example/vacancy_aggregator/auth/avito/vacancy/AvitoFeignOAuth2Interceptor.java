@@ -1,4 +1,4 @@
-package com.example.vacancy_aggregator.auth.avito;
+package com.example.vacancy_aggregator.auth.avito.vacancy;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;

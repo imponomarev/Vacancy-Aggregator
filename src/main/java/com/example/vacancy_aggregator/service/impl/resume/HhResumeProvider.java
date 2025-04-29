@@ -8,6 +8,7 @@ import com.example.vacancy_aggregator.service.ResumeProvider;
 import com.example.vacancy_aggregator.service.ResumeQuery;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +20,13 @@ public class HhResumeProvider implements ResumeProvider {
     private final HhResumeFeign client;
     private final HhResumeMapper mapper;
     private final LocationDirectory locDir;
-    private final String hhToken = "Bearer ..."; // TODO inject
+
+    @Value("${hh.api.app-token}")
+    private String rawHhToken;
+
+    private String bearer() {
+        return rawHhToken.startsWith("Bearer ") ? rawHhToken : "Bearer " + rawHhToken;
+    }
 
     @Override
     public String providerName() {
@@ -33,7 +40,7 @@ public class HhResumeProvider implements ResumeProvider {
                 .flatMap(l -> l.hhId().describeConstable())
                 .orElse(q.area());
 
-        var resp = client.search(q.text(), hhArea, q.page(), q.perPage(), hhToken);
+        var resp = client.search(q.text(), hhArea, q.page(), q.perPage(), bearer());
 
         return resp.items() == null ? List.of()
                 : java.util.Arrays.stream(resp.items()).map(mapper::toResume).toList();

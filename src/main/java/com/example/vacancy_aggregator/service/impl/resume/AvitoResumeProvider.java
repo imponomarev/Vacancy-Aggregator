@@ -1,5 +1,6 @@
 package com.example.vacancy_aggregator.service.impl.resume;
 
+import com.example.vacancy_aggregator.auth.avito.resume.AvitoTokenService;
 import com.example.vacancy_aggregator.client.avito.AvitoResumeFeign;
 import com.example.vacancy_aggregator.data.Resume;
 import com.example.vacancy_aggregator.data.util.AvitoResumeMapper;
@@ -39,6 +40,7 @@ public class AvitoResumeProvider implements ResumeProvider {
         String bearer = "Bearer " + tokenService.token();
 
         var resp = client.search(q.text(), q.page(), q.perPage(), region, bearer);
+
         return resp.result() == null ? List.of()
                 : Arrays.stream(resp.result()).map(mapper::toResume).toList();
     }

@@ -20,10 +20,10 @@ public class SjResumeProvider implements ResumeProvider {
     private final SjResumeFeign client;
     private final SjResumeMapper mapper;
 
-    @Value("${superjob.api.app-id}")
+    @Value("${sj.api.app-id}")
     private String appId;
 
-    @Value("${superjob.api.token}")
+    @Value("${sj.api.token}")
     private String bearer;
 
     @Override

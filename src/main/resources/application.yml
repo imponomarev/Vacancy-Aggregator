@@ -42,17 +42,16 @@ hh:
   api:
     base-url: https://api.hh.ru
     rate-limit-per-sec: 10
-    token: ${HH_TOKEN:}
+    app-token: HH_APP_TOKEN
 
 sj:
   api:
     base-url: https://api.superjob.ru
     client-id: 3837
     client-secret: v3.r.139026421.3de4f97b46a6860f165ba4666eff1d45f2eb9fd7.dd735314cb65b1626dd0c6f4af1a714fd2ffc285
-    #    token-url: https://api.superjob.ru/2.0/oauth2/password/
     rate-limit-per-min: 120
-    app-id: ${SJ_APP_ID:}
-    token: ${SJ_TOKEN:}
+    app-id: SJ_APP_ID
+    token: SJ_TOKEN
 
 avito:
   api:

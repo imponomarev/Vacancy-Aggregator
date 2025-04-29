@@ -1,6 +1,6 @@
 package com.example.vacancy_aggregator.config.avito;
 
-import com.example.vacancy_aggregator.auth.avito.AvitoFeignOAuth2Interceptor;
+import com.example.vacancy_aggregator.auth.avito.vacancy.AvitoFeignOAuth2Interceptor;
 import feign.RequestInterceptor;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import lombok.RequiredArgsConstructor;

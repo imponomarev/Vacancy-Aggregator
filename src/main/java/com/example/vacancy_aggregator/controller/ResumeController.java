@@ -21,7 +21,10 @@ public class ResumeController {
                                @RequestParam Integer page,
                                @RequestParam Integer perPage,
                                @RequestParam(required = false) List<String> providers) {
+
         ResumeQuery q = new ResumeQuery(text, page, perPage, area, providers);
+
         return service.search(q);
+
     }
 }
