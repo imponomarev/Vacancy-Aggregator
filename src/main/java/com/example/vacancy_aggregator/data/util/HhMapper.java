@@ -10,7 +10,7 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 
-import static com.example.vacancy_aggregator.dto.HhSearchResponse.*;
+import static com.example.vacancy_aggregator.dto.hh.HhSearchResponse.*;
 
 @Mapper(componentModel = "spring")
 public interface HhMapper {

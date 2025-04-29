@@ -8,7 +8,7 @@ import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
-import static com.example.vacancy_aggregator.dto.SjSearchResponse.*;
+import static com.example.vacancy_aggregator.dto.sj.SjSearchResponse.*;
 
 
 @Mapper(componentModel="spring",

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.vacancy_aggregator.service.VacancyQuery;
-import com.example.vacancy_aggregator.service.impl.VacancySearchService;
+import com.example.vacancy_aggregator.service.impl.vacancy.VacancySearchService;
 
 import java.util.List;
 

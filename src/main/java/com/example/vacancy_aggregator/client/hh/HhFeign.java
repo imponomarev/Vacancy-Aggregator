@@ -1,7 +1,7 @@
 package com.example.vacancy_aggregator.client.hh;
 
 import com.example.vacancy_aggregator.config.hh.HhFeignConfig;
-import com.example.vacancy_aggregator.dto.HhSearchResponse;
+import com.example.vacancy_aggregator.dto.hh.HhSearchResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

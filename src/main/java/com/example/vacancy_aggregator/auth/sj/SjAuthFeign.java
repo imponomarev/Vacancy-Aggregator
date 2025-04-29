@@ -11,6 +11,6 @@ public interface SjAuthFeign {
                         @RequestParam("password") String pwd,
                         @RequestParam("client_id") String clientId,
                         @RequestParam("client_secret") String secret,
-                        @RequestParam("hr") int hr);   // 0 — поиск вакансий
+                        @RequestParam("hr") int hr);
 }
 

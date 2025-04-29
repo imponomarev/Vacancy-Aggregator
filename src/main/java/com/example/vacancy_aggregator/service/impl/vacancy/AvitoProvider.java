@@ -1,4 +1,4 @@
-package com.example.vacancy_aggregator.service.impl;
+package com.example.vacancy_aggregator.service.impl.vacancy;
 
 import com.example.vacancy_aggregator.client.avito.AvitoFeign;
 import com.example.vacancy_aggregator.data.Vacancy;

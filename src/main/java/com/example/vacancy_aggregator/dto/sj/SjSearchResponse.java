@@ -1,4 +1,4 @@
-package com.example.vacancy_aggregator.dto;
+package com.example.vacancy_aggregator.dto.sj;
 
 import java.util.List;
 

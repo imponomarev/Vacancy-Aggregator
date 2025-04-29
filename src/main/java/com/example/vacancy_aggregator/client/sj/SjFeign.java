@@ -1,7 +1,7 @@
 package com.example.vacancy_aggregator.client.sj;
 
 import com.example.vacancy_aggregator.config.sj.SjFeignConfig;
-import com.example.vacancy_aggregator.dto.SjSearchResponse;
+import com.example.vacancy_aggregator.dto.sj.SjSearchResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

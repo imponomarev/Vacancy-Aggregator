@@ -1,4 +1,4 @@
-package com.example.vacancy_aggregator.service.impl;
+package com.example.vacancy_aggregator.service.impl.vacancy;
 
 import com.example.vacancy_aggregator.data.Vacancy;
 import com.example.vacancy_aggregator.service.VacancyProvider;
@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.example.vacancy_aggregator.service.VacancyQuery;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,17 +21,6 @@ public class VacancySearchService {
                 .getAuthorities()
                 .stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_PRO"));
-
-
-//        List<VacancyProvider> toUse = Optional.ofNullable(query.providers())
-//                .filter(lst -> !lst.isEmpty())
-//                .map(lst -> providers.stream()
-//                        .filter(p -> lst.contains(p.providerName()))
-//                        .toList()
-//                ).orElse(providers);
-//        return toUse.stream()
-//                .flatMap(p -> p.search(query).stream())
-//                .toList();
 
         return providers.stream()
                 .filter(p -> isPro || !"avito".equals(p.providerName()))

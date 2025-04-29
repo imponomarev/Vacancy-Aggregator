@@ -1,10 +1,9 @@
-package com.example.vacancy_aggregator.service.impl;
+package com.example.vacancy_aggregator.service.impl.vacancy;
 
-import com.example.vacancy_aggregator.dto.HhSearchResponse;
+import com.example.vacancy_aggregator.dto.hh.HhSearchResponse;
 import com.example.vacancy_aggregator.client.hh.HhFeign;
 import com.example.vacancy_aggregator.data.Vacancy;
 import com.example.vacancy_aggregator.data.util.HhMapper;
-import com.example.vacancy_aggregator.location.data.Location;
 import com.example.vacancy_aggregator.location.service.impl.LocationDirectory;
 import org.springframework.stereotype.Service;
 import com.example.vacancy_aggregator.service.VacancyProvider;
