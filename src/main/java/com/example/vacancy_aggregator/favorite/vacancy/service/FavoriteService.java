@@ -1,9 +1,9 @@
-package com.example.vacancy_aggregator.favorite.service;
+package com.example.vacancy_aggregator.favorite.vacancy.service;
 
 import com.example.vacancy_aggregator.auth.entity.User;
 import com.example.vacancy_aggregator.data.Vacancy;
-import com.example.vacancy_aggregator.favorite.entity.UserFavorite;
-import com.example.vacancy_aggregator.favorite.repository.UserFavoriteRepository;
+import com.example.vacancy_aggregator.favorite.vacancy.entity.UserFavorite;
+import com.example.vacancy_aggregator.favorite.vacancy.repository.UserFavoriteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

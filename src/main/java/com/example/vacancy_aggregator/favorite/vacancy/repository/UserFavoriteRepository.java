@@ -1,6 +1,6 @@
-package com.example.vacancy_aggregator.favorite.repository;
+package com.example.vacancy_aggregator.favorite.vacancy.repository;
 
-import com.example.vacancy_aggregator.favorite.entity.UserFavorite;
+import com.example.vacancy_aggregator.favorite.vacancy.entity.UserFavorite;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

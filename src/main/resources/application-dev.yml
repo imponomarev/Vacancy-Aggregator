@@ -1,0 +1,10 @@
+hh:
+  api:
+    resume-url: http://localhost:8081
+superjob:
+  api:
+    resume-url: http://localhost:8081
+avito:
+  api:
+    base-url: http://localhost:8081
+    token-uri: http://localhost:8081/token/

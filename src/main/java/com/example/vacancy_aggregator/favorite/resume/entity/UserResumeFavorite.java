@@ -1,18 +1,16 @@
-package com.example.vacancy_aggregator.favorite.entity;
+package com.example.vacancy_aggregator.favorite.resume.entity;
 
 import com.example.vacancy_aggregator.auth.entity.User;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.time.OffsetDateTime;
 
 @Entity
-@Table(name = "user_favorites",
+@Table(name = "user_resume_favorites",
         uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "source", "external_id"}))
-@Getter
-@Setter
-public class UserFavorite {
+@Data
+public class UserResumeFavorite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,22 +28,16 @@ public class UserFavorite {
     @Column(name = "external_id")
     private String externalId;
 
-    private String title;
-    private String company;
+    private String firstName;
+    private String lastName;
+    private String position;
+    private Integer salary;
+    private String currency;
     private String city;
 
-    @Column(name = "salary_from")
-    private Integer salaryFrom;
+    @Column(name = "updated_at")
+    private OffsetDateTime updatedAt;
 
-    @Column(name = "salary_to")
-    private Integer salaryTo;
-
-    private String currency;
-
-    @Column(name = "published_at")
-    private OffsetDateTime publishedAt;
-
-    @Column(name = "url")
     private String url;
 
     @Column(name = "created_at")

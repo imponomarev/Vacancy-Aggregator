@@ -1,15 +1,21 @@
 --liquibase formatted sql
 --changeset imponomarev:4
-CREATE TABLE user_resumes
+
+CREATE TABLE user_resume_favorites
 (
-    id          bigserial PRIMARY KEY,
-    user_id     bigint       NOT NULL REFERENCES users (id) ON DELETE CASCADE,
-    source      varchar(8)   NOT NULL, -- hh | sj | avito
-    external_id varchar(64)  NOT NULL,
-    title       varchar(512) NOT NULL,
-    city        varchar(128),
-    updated_at  timestamp,
-    created_at  timestamp DEFAULT now(),
-    CONSTRAINT uq_user_resumes UNIQUE (user_id, source, external_id)
+    id          BIGSERIAL PRIMARY KEY,
+    user_id     BIGINT      NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+    source      VARCHAR(16) NOT NULL,
+    external_id VARCHAR(64) NOT NULL,
+    first_name  VARCHAR(128),
+    last_name   VARCHAR(128),
+    position    VARCHAR(256),
+    salary      INT,
+    currency    VARCHAR(8),
+    city        VARCHAR(128),
+    updated_at  TIMESTAMPTZ,
+    url         TEXT,
+    created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    UNIQUE (user_id, source, external_id)
 );
 --rollback DROP TABLE user_resumes;

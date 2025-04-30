@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name="sjResumes", url="https://api.superjob.ru/2.0")
+@FeignClient(name="sjResumes", url="${sj.api.resume-url}")
 public interface SjResumeFeign {
 
     @GetMapping("/resumes")

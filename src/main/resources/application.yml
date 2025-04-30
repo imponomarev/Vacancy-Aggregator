@@ -43,6 +43,7 @@ hh:
     base-url: https://api.hh.ru
     rate-limit-per-sec: 10
     app-token: HH_APP_TOKEN
+    resume-url: https://api.hh.ru
 
 sj:
   api:
@@ -52,6 +53,7 @@ sj:
     rate-limit-per-min: 120
     app-id: SJ_APP_ID
     token: SJ_TOKEN
+    resume-url: https://api.superjob.ru/2.0
 
 avito:
   api:
