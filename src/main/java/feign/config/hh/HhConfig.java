@@ -1,4 +1,4 @@
-package com.example.vacancy_aggregator.config.hh;
+package feign.config.hh;
 
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import org.springframework.beans.factory.annotation.Value;

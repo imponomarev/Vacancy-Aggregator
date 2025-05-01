@@ -1,4 +1,4 @@
-package com.example.vacancy_aggregator.config.avito;
+package feign.config.avito;
 
 import com.example.vacancy_aggregator.auth.avito.vacancy.AvitoFeignOAuth2Interceptor;
 import feign.RequestInterceptor;
@@ -10,7 +10,6 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 
 import java.time.Duration;
 
-@Configuration
 @RequiredArgsConstructor
 public class AvitoVacancyFeignConfig {
 

@@ -1,12 +1,12 @@
 package com.example.vacancy_aggregator.client.sj;
 
-import com.example.vacancy_aggregator.config.sj.SjFeignConfig;
+import feign.config.sj.SjVacancyFeignConfig;
 import com.example.vacancy_aggregator.dto.sj.SjSearchResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "sj", url = "${sj.api.base-url}", configuration = SjFeignConfig.class)
+@FeignClient(name = "sj", url = "${sj.api.base-url}", configuration = SjVacancyFeignConfig.class)
 public interface SjFeign {
 
     @GetMapping("/2.0/vacancies/")

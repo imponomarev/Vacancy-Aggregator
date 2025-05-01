@@ -1,17 +1,17 @@
-package com.example.vacancy_aggregator.config.yookassa;
+package feign.config.yookassa;
 
 import feign.RequestInterceptor;
 import feign.codec.ErrorDecoder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 /**
  * Настройки, общие для всех вызовов YooKassa.
  */
-@Configuration
 public class YooKassaConfig {
 
     /** Basic-заголовок формируем один раз и подставляем во все запросы */

@@ -1,6 +1,6 @@
 package com.example.vacancy_aggregator.client.hh;
 
-import com.example.vacancy_aggregator.config.hh.HhVacancyFeignConfig;
+import feign.config.hh.HhVacancyFeignConfig;
 import com.example.vacancy_aggregator.location.dto.SuggestAreaResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

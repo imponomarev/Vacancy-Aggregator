@@ -20,7 +20,6 @@ public class AvitoResumeProvider implements ResumeProvider {
 
     private final AvitoResumeFeign client;
     private final AvitoResumeMapper mapper;
-    private final AvitoTokenService tokenService;
     private final LocationDirectory locDir;
 
     @Override
@@ -37,7 +36,6 @@ public class AvitoResumeProvider implements ResumeProvider {
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Unknown Avito region: " + q.area()));
 
-//        String bearer = "Bearer " + tokenService.token();
 
         var resp = client.search(q.text(), q.page(), q.perPage(), region);
 

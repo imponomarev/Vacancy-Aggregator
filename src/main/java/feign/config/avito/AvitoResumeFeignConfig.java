@@ -1,11 +1,9 @@
-package com.example.vacancy_aggregator.config.avito;
+package feign.config.avito;
 
 import com.example.vacancy_aggregator.auth.avito.resume.AvitoTokenService;
 import feign.RequestInterceptor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
 public class AvitoResumeFeignConfig {
     @Bean
     public RequestInterceptor avitoAuthInterceptor(AvitoTokenService tokenService) {

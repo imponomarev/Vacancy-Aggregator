@@ -1,6 +1,6 @@
 package com.example.vacancy_aggregator.auth.avito.resume;
 
-import com.example.vacancy_aggregator.config.avito.AvitoProps;
+import feign.config.avito.AvitoProps;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

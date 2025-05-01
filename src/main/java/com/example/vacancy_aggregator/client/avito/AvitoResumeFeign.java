@@ -1,7 +1,7 @@
 package com.example.vacancy_aggregator.client.avito;
 
-import com.example.vacancy_aggregator.config.avito.AvitoResumeFeignConfig;
 import com.example.vacancy_aggregator.dto.avito.AvitoResumeSearchResponse;
+import feign.config.avito.AvitoResumeFeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

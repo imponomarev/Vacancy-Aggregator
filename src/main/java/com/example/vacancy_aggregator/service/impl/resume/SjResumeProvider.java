@@ -7,7 +7,6 @@ import com.example.vacancy_aggregator.service.ResumeProvider;
 import com.example.vacancy_aggregator.service.ResumeQuery;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -20,12 +19,6 @@ public class SjResumeProvider implements ResumeProvider {
     private final SjResumeFeign client;
     private final SjResumeMapper mapper;
 
-    @Value("${sj.api.app-id}")
-    private String appId;
-
-    @Value("${sj.api.token}")
-    private String bearer;
-
     @Override
     public String providerName() {
         return "sj";
@@ -34,7 +27,7 @@ public class SjResumeProvider implements ResumeProvider {
     @Override
     @RateLimiter(name = "sj")
     public List<Resume> search(ResumeQuery q) {
-        var resp = client.search(q.text(), q.page(), q.perPage(), appId, bearer);
+        var resp = client.search(q.text(), q.page(), q.perPage());
         return resp.objects() == null ? List.of()
                 : Arrays.stream(resp.objects()).map(mapper::toResume).toList();
     }

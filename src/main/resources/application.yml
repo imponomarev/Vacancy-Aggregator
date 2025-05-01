@@ -81,7 +81,6 @@ resilience4j:
 logging:
   level:
     com.example.vacancy_aggregator: DEBUG
-    feign: DEBUG
 
 
 jwt:

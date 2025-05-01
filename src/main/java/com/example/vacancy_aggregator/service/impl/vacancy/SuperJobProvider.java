@@ -1,7 +1,6 @@
 package com.example.vacancy_aggregator.service.impl.vacancy;
 
 import com.example.vacancy_aggregator.client.sj.SjFeign;
-import com.example.vacancy_aggregator.config.sj.SjProps;
 import com.example.vacancy_aggregator.data.Vacancy;
 import com.example.vacancy_aggregator.data.util.SjMapper;
 import com.example.vacancy_aggregator.dto.sj.SjSearchResponse;
@@ -21,7 +20,6 @@ public class SuperJobProvider implements VacancyProvider {
 
     private final SjFeign client;
     private final SjMapper mapper;
-    private final SjProps props;
     private final LocationDirectory locDir;
 
     @Override
