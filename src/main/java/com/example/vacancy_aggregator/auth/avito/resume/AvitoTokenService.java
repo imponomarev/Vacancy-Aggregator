@@ -25,6 +25,7 @@ public class AvitoTokenService {
         }
 
         var resp = authFeign.token("client_credentials", props.getClientId(), props.getClientSecret());
+        log.debug("token response from Avito: {}", resp);
 
         this.token = resp.accessToken();
         this.expiresAt = Instant.now().plusSeconds(resp.expiresIn() - 60);

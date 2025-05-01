@@ -1,6 +1,7 @@
 package com.example.vacancy_aggregator.auth.avito.resume;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +15,7 @@ public interface AvitoAuthFeign {
                              @RequestParam("client_secret") String clientSecret
     );
 
-    record AvitoTokenResponse(String accessToken, long expiresIn) {
+    record AvitoTokenResponse(@JsonProperty("access_token") String accessToken,
+                              @JsonProperty("expires_in") long expiresIn) {
     }
 }

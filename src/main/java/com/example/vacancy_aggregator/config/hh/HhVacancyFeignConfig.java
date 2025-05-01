@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import java.io.IOException;
 
 @Configuration
-public class HhFeignConfig {
+public class HhVacancyFeignConfig {
 
     @Bean
     public OkHttpClient feignOkHttpClient() {

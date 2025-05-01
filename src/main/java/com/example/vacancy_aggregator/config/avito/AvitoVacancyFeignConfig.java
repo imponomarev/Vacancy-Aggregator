@@ -12,7 +12,7 @@ import java.time.Duration;
 
 @Configuration
 @RequiredArgsConstructor
-public class AvitoFeignConfig {
+public class AvitoVacancyFeignConfig {
 
     private final AvitoProps props;
     private final OAuth2AuthorizedClientManager authClientManager;

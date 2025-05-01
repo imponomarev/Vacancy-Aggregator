@@ -37,9 +37,9 @@ public class AvitoResumeProvider implements ResumeProvider {
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Unknown Avito region: " + q.area()));
 
-        String bearer = "Bearer " + tokenService.token();
+//        String bearer = "Bearer " + tokenService.token();
 
-        var resp = client.search(q.text(), q.page(), q.perPage(), region, bearer);
+        var resp = client.search(q.text(), q.page(), q.perPage(), region);
 
         return resp.result() == null ? List.of()
                 : Arrays.stream(resp.result()).map(mapper::toResume).toList();

@@ -58,7 +58,7 @@ sj:
 avito:
   api:
     base-url: https://api.avito.ru
-    client-id:  z9Iv_A5T8Yyhxxst4ZWN
+    client-id: z9Iv_A5T8Yyhxxst4ZWN
     client-secret: 46HVvIoGhc4lOzJszoFtgHDx2bTzHXFn_kIuGM-V
     rate-limit-per-sec: 5
   locations:
@@ -81,6 +81,8 @@ resilience4j:
 logging:
   level:
     com.example.vacancy_aggregator: DEBUG
+    feign: DEBUG
+
 
 jwt:
   secret: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpLnBvbm9tYXJldi4xOTkxQGdtYWlsLmNvbSIsImlhdCI6MTc0NTg0MTQ4NCwiZXhwIjoxNzQ1OTI3ODg0fQ.m1cayC5FL6juW4Y5wuFW8QEUB0r0MSrJ2jcOvdsCQ3o
