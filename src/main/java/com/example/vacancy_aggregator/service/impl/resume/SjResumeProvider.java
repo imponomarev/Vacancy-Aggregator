@@ -1,8 +1,8 @@
 package com.example.vacancy_aggregator.service.impl.resume;
 
 import com.example.vacancy_aggregator.client.sj.SjResumeFeign;
-import com.example.vacancy_aggregator.data.Resume;
-import com.example.vacancy_aggregator.data.util.SjResumeMapper;
+import com.example.vacancy_aggregator.data.resume.Resume;
+import com.example.vacancy_aggregator.data.resume.util.SjResumeMapper;
 import com.example.vacancy_aggregator.service.ResumeProvider;
 import com.example.vacancy_aggregator.service.ResumeQuery;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;

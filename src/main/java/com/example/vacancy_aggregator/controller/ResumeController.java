@@ -1,6 +1,6 @@
 package com.example.vacancy_aggregator.controller;
 
-import com.example.vacancy_aggregator.data.Resume;
+import com.example.vacancy_aggregator.data.resume.Resume;
 import com.example.vacancy_aggregator.service.ResumeQuery;
 import com.example.vacancy_aggregator.service.impl.resume.ResumeSearchService;
 import lombok.RequiredArgsConstructor;

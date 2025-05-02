@@ -1,9 +1,8 @@
 package com.example.vacancy_aggregator.service.impl.resume;
 
-import com.example.vacancy_aggregator.auth.avito.resume.AvitoTokenService;
 import com.example.vacancy_aggregator.client.avito.AvitoResumeFeign;
-import com.example.vacancy_aggregator.data.Resume;
-import com.example.vacancy_aggregator.data.util.AvitoResumeMapper;
+import com.example.vacancy_aggregator.data.resume.Resume;
+import com.example.vacancy_aggregator.data.resume.util.AvitoResumeMapper;
 import com.example.vacancy_aggregator.location.service.impl.LocationDirectory;
 import com.example.vacancy_aggregator.service.ResumeProvider;
 import com.example.vacancy_aggregator.service.ResumeQuery;
@@ -39,7 +38,7 @@ public class AvitoResumeProvider implements ResumeProvider {
 
         var resp = client.search(q.text(), q.page(), q.perPage(), region);
 
-        return resp.result() == null ? List.of()
-                : Arrays.stream(resp.result()).map(mapper::toResume).toList();
+        return resp.resumes() == null ? List.of()
+                : Arrays.stream(resp.resumes()).map(mapper::toResume).toList();
     }
 }

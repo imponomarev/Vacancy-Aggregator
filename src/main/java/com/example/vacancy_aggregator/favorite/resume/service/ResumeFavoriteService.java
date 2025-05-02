@@ -1,8 +1,7 @@
 package com.example.vacancy_aggregator.favorite.resume.service;
 
 import com.example.vacancy_aggregator.auth.entity.User;
-import com.example.vacancy_aggregator.data.Resume;
-import com.example.vacancy_aggregator.favorite.resume.entity.UserResumeFavorite;
+import com.example.vacancy_aggregator.data.resume.Resume;
 import com.example.vacancy_aggregator.favorite.resume.repository.UserResumeFavoriteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
@@ -25,21 +24,9 @@ public class ResumeFavoriteService {
     public void like(User user, Resume r) {
         requirePro();
         repository.findByUserIdAndSourceAndExternalId(user.getId(), r.source(), r.externalId())
-                .orElseGet(() -> {
-                    UserResumeFavorite f = new UserResumeFavorite();
-                    f.setUser(user);
-                    f.setSource(r.source());
-                    f.setExternalId(r.externalId());
-                    f.setFirstName(r.firstName());
-                    f.setLastName(r.lastName());
-                    f.setPosition(r.position());
-                    f.setSalary(r.salary());
-                    f.setCurrency(r.currency());
-                    f.setCity(r.city());
-                    f.setUpdatedAt(r.updatedAt());
-                    f.setUrl(r.url());
-                    return repository.save(f);
-                });
+                .orElseGet(() -> repository.save(
+                        ResumeFavoriteMapper.toEntity(r, user)
+                ));
     }
 
     /**
@@ -59,11 +46,7 @@ public class ResumeFavoriteService {
         requirePro();
         return repository.findAllByUserId(user.getId())
                 .stream()
-                .map(f -> new Resume(
-                        f.getSource(), f.getExternalId(),
-                        f.getFirstName(), f.getLastName(), f.getPosition(),
-                        f.getSalary(), f.getCurrency(), f.getCity(),
-                        f.getUpdatedAt(), f.getUrl()))
+                .map(ResumeFavoriteMapper::toDto)
                 .toList();
     }
 

@@ -1,6 +1,6 @@
-package com.example.vacancy_aggregator.data.util;
+package com.example.vacancy_aggregator.data.vacancy.util;
 
-import com.example.vacancy_aggregator.data.Vacancy;
+import com.example.vacancy_aggregator.data.vacancy.Vacancy;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

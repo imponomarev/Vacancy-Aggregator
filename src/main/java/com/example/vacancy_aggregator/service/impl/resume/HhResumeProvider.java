@@ -1,8 +1,8 @@
 package com.example.vacancy_aggregator.service.impl.resume;
 
 import com.example.vacancy_aggregator.client.hh.HhResumeFeign;
-import com.example.vacancy_aggregator.data.Resume;
-import com.example.vacancy_aggregator.data.util.HhResumeMapper;
+import com.example.vacancy_aggregator.data.resume.Resume;
+import com.example.vacancy_aggregator.data.resume.util.HhResumeMapper;
 import com.example.vacancy_aggregator.location.service.impl.LocationDirectory;
 import com.example.vacancy_aggregator.service.ResumeProvider;
 import com.example.vacancy_aggregator.service.ResumeQuery;

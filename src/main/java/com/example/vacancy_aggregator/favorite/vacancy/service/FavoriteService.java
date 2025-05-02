@@ -1,7 +1,7 @@
 package com.example.vacancy_aggregator.favorite.vacancy.service;
 
 import com.example.vacancy_aggregator.auth.entity.User;
-import com.example.vacancy_aggregator.data.Vacancy;
+import com.example.vacancy_aggregator.data.vacancy.Vacancy;
 import com.example.vacancy_aggregator.favorite.vacancy.entity.UserFavorite;
 import com.example.vacancy_aggregator.favorite.vacancy.repository.UserFavoriteRepository;
 import lombok.RequiredArgsConstructor;

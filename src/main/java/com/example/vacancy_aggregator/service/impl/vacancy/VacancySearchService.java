@@ -1,6 +1,6 @@
 package com.example.vacancy_aggregator.service.impl.vacancy;
 
-import com.example.vacancy_aggregator.data.Vacancy;
+import com.example.vacancy_aggregator.data.vacancy.Vacancy;
 import com.example.vacancy_aggregator.service.VacancyProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;

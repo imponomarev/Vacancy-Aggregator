@@ -1,6 +1,6 @@
 package com.example.vacancy_aggregator.service;
 
-import com.example.vacancy_aggregator.data.Vacancy;
+import com.example.vacancy_aggregator.data.vacancy.Vacancy;
 import java.util.List;
 
 public interface VacancyProvider {

@@ -1,6 +1,6 @@
-package com.example.vacancy_aggregator.data.util;
+package com.example.vacancy_aggregator.data.vacancy.util;
 
-import com.example.vacancy_aggregator.data.Vacancy;
+import com.example.vacancy_aggregator.data.vacancy.Vacancy;
 import com.example.vacancy_aggregator.dto.avito.AvitoItemResponse;
 import com.example.vacancy_aggregator.dto.avito.AvitoSearchResponse;
 import org.mapstruct.*;
