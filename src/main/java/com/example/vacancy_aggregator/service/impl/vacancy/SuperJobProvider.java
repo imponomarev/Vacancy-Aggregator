@@ -46,11 +46,4 @@ public class SuperJobProvider implements VacancyProvider {
                 .map(mapper::toVacancy)
                 .toList();
     }
-
-    @Override
-    public Vacancy getById(String externalId) {
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
-
-
 }

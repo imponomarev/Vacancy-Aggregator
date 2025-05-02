@@ -8,3 +8,22 @@ avito:
   api:
     base-url: http://localhost:8081
     token-uri: http://localhost:8081/token/
+    client-id: dummy-client-id
+    client-secret: dummy-client-secret
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          avito:
+            client-id: ${avito.api.client-id}
+            client-secret: ${avito.api.client-secret}
+            authorization-grant-type: client_credentials
+            scope:
+              - job:vacancy
+              - job:write
+              - job:negotiations
+        provider:
+          avito:
+            token-uri: ${avito.api.token-uri}

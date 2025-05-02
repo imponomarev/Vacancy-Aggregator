@@ -14,6 +14,10 @@ public record HhSearchResponse(
             Map<String, Object> salary,
             Map<String, Object> employer,
             Map<String, Object> area,
+            Map<String, Object> experience,
+            Map<String, Object> employment,
+            Map<String, Object> schedule,
+            Map<String, Object> snippet,
             String published_at,
             String alternate_url
     ) {

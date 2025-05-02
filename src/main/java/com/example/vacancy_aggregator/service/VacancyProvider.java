@@ -6,5 +6,4 @@ import java.util.List;
 public interface VacancyProvider {
     String providerName();
     List<Vacancy> search(VacancyQuery query);
-    Vacancy getById(String externalId);
 }

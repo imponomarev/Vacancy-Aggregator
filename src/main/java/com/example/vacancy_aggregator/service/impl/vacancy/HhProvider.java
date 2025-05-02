@@ -51,9 +51,4 @@ public class HhProvider implements VacancyProvider {
                 .map(mapper::toVacancy)
                 .toList();
     }
-
-    @Override
-    public Vacancy getById(String externalId) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
 }

@@ -12,10 +12,15 @@ public class Vacancy {
     private String externalId;   // 7760476
     private String title;
     private String company;
+    private String companyUrl;
     private String city;
     private Integer salaryFrom;
     private Integer salaryTo;
     private String currency;
+    private String description;
+    private String experienceReq;
+    private String employmentType;
+    private String schedule;
     private OffsetDateTime publishedAt;
     private String url;
 }

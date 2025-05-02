@@ -2,26 +2,25 @@ package com.example.vacancy_aggregator.dto.avito;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 public record AvitoSearchResponse(
-        @JsonProperty("status") String status,
-        @JsonProperty("result") Item[] result,
-        @JsonProperty("total") int total
+        Meta meta,
+        List<Item> vacancies
 ) {
     public record Item(
             String id,
             String title,
-            Employer employer,
-            Location location,
-            @JsonProperty("salary_min") Integer salaryMin,
-            @JsonProperty("salary_max") Integer salaryMax,
-            String currency,
-            @JsonProperty("published_at") String publishedAt
-    ) {
+            String profession,
+            String companyName,
+            AddressDetails addressDetails,
+            @JsonProperty("published_at") String published_at,
+            String link) {
+
+        public record AddressDetails(String address, String city) {
+        }
     }
 
-    public record Employer(String name) {
-    }
-
-    public record Location(String city) {
+    public record Meta(int page, int pages, int per_page) {
     }
 }

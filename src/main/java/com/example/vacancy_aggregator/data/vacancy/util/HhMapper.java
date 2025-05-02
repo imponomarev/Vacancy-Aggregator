@@ -20,14 +20,18 @@ public interface HhMapper {
     @Mapping(target = "externalId", source = "id")
     @Mapping(target = "title", source = "name")
     @Mapping(target = "company", expression = "java(item.employer() !=null ? (String) item.employer().get(\"name\") : null)")
+    @Mapping(target = "companyUrl", expression = "java((String)item.employer().get(\"alternate_url\"))")
     @Mapping(target = "city", expression = "java(item.area() !=null ? (String) item.area().get(\"name\") : null)")
     @Mapping(target = "salaryFrom", expression = "java(item.salary() !=null ? (Integer) item.salary().get(\"from\") : null)")
-    @Mapping(target = "salaryTo", expression   = "java(item.salary() !=null ? (Integer) item.salary().get(\"to\") : null)")
-    @Mapping(target = "currency", expression   = "java(item.salary() !=null ? (String) item.salary().get(\"currency\") : null)")
+    @Mapping(target = "salaryTo", expression = "java(item.salary() !=null ? (Integer) item.salary().get(\"to\") : null)")
+    @Mapping(target = "currency", expression = "java(item.salary() !=null ? (String) item.salary().get(\"currency\") : null)")
+    @Mapping(target = "description", expression = "java(item.snippet()!=null ? (String)item.snippet().get(\"responsibility\") : null)")
+    @Mapping(target = "experienceReq", expression = "java(item.experience()!=null ? (String)item.experience().get(\"name\") : null)")
+    @Mapping(target = "employmentType", expression = "java(item.employment()!=null ? (String)item.employment().get(\"name\") : null)")
+    @Mapping(target = "schedule", expression = "java(item.schedule()!=null ? (String)item.schedule().get(\"name\") : null)")
     @Mapping(target = "publishedAt", source = "published_at")
     @Mapping(target = "url", source = "alternate_url")
     Vacancy toVacancy(HhVacancyItem item);
-
 
 
     default OffsetDateTime mapPublishedAt(String publishedAt) {

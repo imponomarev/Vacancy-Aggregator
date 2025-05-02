@@ -3,7 +3,6 @@ package com.example.vacancy_aggregator.service.impl.vacancy;
 import com.example.vacancy_aggregator.client.avito.AvitoFeign;
 import com.example.vacancy_aggregator.data.vacancy.Vacancy;
 import com.example.vacancy_aggregator.data.vacancy.util.AvitoMapper;
-import com.example.vacancy_aggregator.dto.avito.AvitoItemResponse;
 import com.example.vacancy_aggregator.dto.avito.AvitoSearchResponse;
 import com.example.vacancy_aggregator.location.service.impl.AvitoLocationService;
 import com.example.vacancy_aggregator.service.VacancyProvider;
@@ -12,7 +11,6 @@ import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -42,16 +40,8 @@ public class AvitoProvider implements VacancyProvider {
                 query.perPage(),
                 region);
 
-        return Arrays.stream(resp.result())
+        return resp.vacancies().stream()
                 .map(mapper::toVacancy)
                 .toList();
     }
-
-    @Override
-    @RateLimiter(name = "avito")
-    public Vacancy getById(String externalId) {
-        AvitoItemResponse dto = feign.byId(externalId);
-        return mapper.toVacancy(dto);
-    }
-
 }
