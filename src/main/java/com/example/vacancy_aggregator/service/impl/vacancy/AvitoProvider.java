@@ -1,8 +1,8 @@
 package com.example.vacancy_aggregator.service.impl.vacancy;
 
 import com.example.vacancy_aggregator.client.avito.AvitoFeign;
-import com.example.vacancy_aggregator.data.Vacancy;
-import com.example.vacancy_aggregator.data.util.AvitoMapper;
+import com.example.vacancy_aggregator.data.vacancy.Vacancy;
+import com.example.vacancy_aggregator.data.vacancy.util.AvitoMapper;
 import com.example.vacancy_aggregator.dto.avito.AvitoItemResponse;
 import com.example.vacancy_aggregator.dto.avito.AvitoSearchResponse;
 import com.example.vacancy_aggregator.location.service.impl.AvitoLocationService;

@@ -1,6 +1,6 @@
 package com.example.vacancy_aggregator.auth.avito.resume;
 
-import com.example.vacancy_aggregator.config.avito.AvitoProps;
+import feign.config.avito.AvitoProps;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,6 +25,7 @@ public class AvitoTokenService {
         }
 
         var resp = authFeign.token("client_credentials", props.getClientId(), props.getClientSecret());
+        log.debug("token response from Avito: {}", resp);
 
         this.token = resp.accessToken();
         this.expiresAt = Instant.now().plusSeconds(resp.expiresIn() - 60);

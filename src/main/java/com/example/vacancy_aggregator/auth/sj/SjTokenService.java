@@ -1,6 +1,6 @@
 package com.example.vacancy_aggregator.auth.sj;
 
-import com.example.vacancy_aggregator.config.sj.SjProps;
+import feign.config.sj.SjProps;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

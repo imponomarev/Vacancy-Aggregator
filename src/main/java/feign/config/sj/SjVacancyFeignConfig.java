@@ -1,4 +1,4 @@
-package com.example.vacancy_aggregator.config.sj;
+package feign.config.sj;
 
 import com.example.vacancy_aggregator.auth.sj.SjTokenService;
 import feign.RequestInterceptor;
@@ -6,13 +6,11 @@ import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.time.Duration;
 
 @Slf4j
-@Configuration
-public class SjFeignConfig {
+public class SjVacancyFeignConfig {
 
     @Bean
     public RequestInterceptor sjInterceptor(SjProps p, SjTokenService ts) {

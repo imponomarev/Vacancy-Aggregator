@@ -1,6 +1,6 @@
 package com.example.vacancy_aggregator.service;
 
-import com.example.vacancy_aggregator.data.Resume;
+import com.example.vacancy_aggregator.data.resume.Resume;
 import java.util.List;
 
 public interface ResumeProvider {

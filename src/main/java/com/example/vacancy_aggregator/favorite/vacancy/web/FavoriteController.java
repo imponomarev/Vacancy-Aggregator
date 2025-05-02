@@ -1,7 +1,7 @@
 package com.example.vacancy_aggregator.favorite.vacancy.web;
 
 import com.example.vacancy_aggregator.auth.repository.UserRepository;
-import com.example.vacancy_aggregator.data.Vacancy;
+import com.example.vacancy_aggregator.data.vacancy.Vacancy;
 import com.example.vacancy_aggregator.favorite.vacancy.service.FavoriteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

@@ -1,16 +1,14 @@
-package com.example.vacancy_aggregator.config.hh;
+package feign.config.hh;
 
 import feign.okhttp.OkHttpClient;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
 
-@Configuration
-public class HhFeignConfig {
+public class HhVacancyFeignConfig {
 
     @Bean
     public OkHttpClient feignOkHttpClient() {

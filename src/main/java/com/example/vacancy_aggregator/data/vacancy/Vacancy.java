@@ -1,4 +1,4 @@
-package com.example.vacancy_aggregator.data;
+package com.example.vacancy_aggregator.data.vacancy;
 
 import lombok.Builder;
 import lombok.Data;

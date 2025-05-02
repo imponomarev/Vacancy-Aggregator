@@ -9,4 +9,5 @@
     <include file="migrations/tables/01_create_users_payments_tables.sql"/>
     <include file="migrations/tables/02_create_table_user_favorites.sql"/>
     <include file="migrations/tables/003_create_resume_table.sql"/>
+    <include file="migrations/tables/004_create_user_resume_experience_table.sql"/>
 </databaseChangeLog>

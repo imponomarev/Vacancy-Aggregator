@@ -1,8 +1,8 @@
 package com.example.vacancy_aggregator.client.avito;
 
-import com.example.vacancy_aggregator.config.avito.AvitoFeignConfig;
 import com.example.vacancy_aggregator.dto.avito.AvitoItemResponse;
 import com.example.vacancy_aggregator.dto.avito.AvitoSearchResponse;
+import feign.config.avito.AvitoVacancyFeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(
         name = "avito",
         url = "${avito.api.base-url}",
-        configuration = AvitoFeignConfig.class)
+        configuration = AvitoVacancyFeignConfig.class)
 public interface AvitoFeign {
 
     @GetMapping("/job/v2/vacancies")
