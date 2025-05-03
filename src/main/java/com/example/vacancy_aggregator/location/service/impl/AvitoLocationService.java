@@ -28,7 +28,6 @@ public class AvitoLocationService {
     @PostConstruct
     public void init() {
         try (InputStream in = new URL(locationsXmlUrl).openStream()) {
-            log.info("Loading Avito regions from {}", locationsXmlUrl);
             Document doc = DocumentBuilderFactory
                     .newInstance()
                     .newDocumentBuilder()
@@ -44,14 +43,14 @@ public class AvitoLocationService {
                         Integer id = Integer.valueOf(idStr);
                         tmp.put(name.trim(), id);
                     } catch (NumberFormatException nfe) {
-                        log.warn("Invalid Avito region Id='{}' for Name='{}'", idStr, name);
+                        log.warn("Некорректный авито регион с Id='{}' под названием '{}'", idStr, name);
                     }
                 }
             }
             this.regionsByName = Collections.unmodifiableMap(tmp);
-            log.info("Loaded {} Avito regions", regionsByName.size());
+            log.info("Загружаем {} Регионов для Авито", regionsByName.size());
         } catch (Exception ex) {
-            log.error("Failed to load Avito regions XML: {}", ex.getMessage(), ex);
+            log.error("Не удалось загрузить Авито региона из XML: {}", ex.getMessage(), ex);
             this.regionsByName = Collections.emptyMap();
         }
     }

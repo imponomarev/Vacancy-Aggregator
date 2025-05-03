@@ -32,7 +32,7 @@ public class AvitoProvider implements VacancyProvider {
 
         int region = avitoLoc.findRegionId(query.area())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Unknown Avito region: " + query.area()));
+                        "Неизвестный для Авито регион: " + query.area()));
 
         AvitoSearchResponse resp = feign.search(
                 query.text(),

@@ -42,6 +42,16 @@ public class UserFavorite {
 
     private String currency;
 
+    String description;
+
+    @Column(name = "experience_req")
+    String experienceReq;
+
+    @Column(name = "employment_type")
+    String employmentType;
+
+    String schedule;
+
     @Column(name = "published_at")
     private OffsetDateTime publishedAt;
 

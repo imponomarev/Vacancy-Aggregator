@@ -33,6 +33,10 @@ public class FavoriteService {
                     f.setSalaryFrom(v.getSalaryFrom());
                     f.setSalaryTo(v.getSalaryTo());
                     f.setCurrency(v.getCurrency());
+                    f.setDescription(v.getDescription());
+                    f.setExperienceReq(v.getExperienceReq());
+                    f.setEmploymentType(v.getEmploymentType());
+                    f.setSchedule(v.getSchedule());
                     f.setPublishedAt(v.getPublishedAt());
                     f.setUrl(v.getUrl());
                     return repository.save(f);
@@ -62,6 +66,10 @@ public class FavoriteService {
                         .salaryFrom(f.getSalaryFrom())
                         .salaryTo(f.getSalaryTo())
                         .currency(f.getCurrency())
+                        .description(f.getDescription())
+                        .experienceReq(f.getExperienceReq())
+                        .employmentType(f.getEmploymentType())
+                        .schedule(f.getSchedule())
                         .publishedAt(f.getPublishedAt())
                         .url(f.getUrl())
                         .build())

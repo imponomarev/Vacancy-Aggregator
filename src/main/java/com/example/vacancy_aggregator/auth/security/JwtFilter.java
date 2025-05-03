@@ -32,7 +32,6 @@ public class JwtFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String auth = req.getHeader("Authorization");
-        log.debug("Auth header: {}", auth);
 
         try {
             if (StringUtils.hasText(auth) && auth.startsWith("Bearer ")) {
@@ -48,7 +47,6 @@ public class JwtFilter extends OncePerRequestFilter {
                     authTok.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
 
                     SecurityContextHolder.getContext().setAuthentication(authTok);
-                    log.debug("JWT OK, user = {}", username);
                 }
             }
         } catch (Exception ex) {
