@@ -2,6 +2,7 @@ package com.example.vacancy_aggregator.auth.web;
 
 import com.example.vacancy_aggregator.auth.entity.User;
 import com.example.vacancy_aggregator.auth.repository.UserRepository;
+import com.example.vacancy_aggregator.auth.security.JwtToken;
 import com.example.vacancy_aggregator.auth.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,6 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestParam String email, @RequestParam String pwd) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, pwd));
         String jwt = util.generate(email);
-        return ResponseEntity.ok(jwt);
+        return ResponseEntity.ok(new JwtToken(jwt));
     }
 }
