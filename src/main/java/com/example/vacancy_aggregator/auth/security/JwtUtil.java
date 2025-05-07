@@ -1,7 +1,9 @@
 package com.example.vacancy_aggregator.auth.security;
 
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -13,7 +15,10 @@ import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 
 @Component
+@RequiredArgsConstructor
 public class JwtUtil {
+
+    private final UserDetailsService uds;
 
     @Value("${jwt.secret}")
     private String secret;
@@ -30,9 +35,17 @@ public class JwtUtil {
     }
 
     public String generate(String username) {
+
+        var user = uds.loadUserByUsername(username);
+        String role = user.getAuthorities().stream()
+                .findFirst()
+                .map(a -> a.getAuthority().replace("ROLE_", ""))
+                .orElse("FREE");
+
         Instant now = Instant.now();
         return Jwts.builder()
                 .setSubject(username)
+                .claim("role", role)
                 .setIssuedAt(Date.from(now))
                 .setExpiration(Date.from(now.plusSeconds(ttl))) // 24h
                 .signWith(key)
