@@ -13,5 +13,7 @@ public interface HhFeign {
     HhSearchResponse search(@RequestParam String text,
                             @RequestParam String area,
                             @RequestParam int page,
-                            @RequestParam("per_page") int perPage);
+                            @RequestParam("per_page") int perPage,
+                            @RequestParam(required = false) Integer salary,
+                            @RequestParam(required = false) String experience);
 }

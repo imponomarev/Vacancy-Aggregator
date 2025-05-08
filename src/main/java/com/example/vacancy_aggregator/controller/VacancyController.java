@@ -1,6 +1,7 @@
 package com.example.vacancy_aggregator.controller;
 
 import com.example.vacancy_aggregator.data.vacancy.Vacancy;
+import com.example.vacancy_aggregator.service.util.ExperienceLevel;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,8 +26,11 @@ public class VacancyController {
                                 @RequestParam String area,
                                 @RequestParam Integer page,
                                 @RequestParam Integer perPage,
-                                @RequestParam(required = false) List<String> providers) {
-        VacancyQuery query = new VacancyQuery(text, page, perPage, area, providers);
+                                @RequestParam(required = false) List<String> providers,
+                                @RequestParam(required = false) Integer salaryFrom,
+                                @RequestParam(required = false) Integer salaryTo,
+                                @RequestParam(required = false) ExperienceLevel experience) {
+        VacancyQuery query = new VacancyQuery(text, page, perPage, area, providers, salaryFrom, salaryTo, experience);
         return service.search(query);
     }
 

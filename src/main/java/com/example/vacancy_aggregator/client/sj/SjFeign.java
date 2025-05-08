@@ -14,5 +14,8 @@ public interface SjFeign {
             @RequestParam("keyword") String text,
             @RequestParam("town") String town,
             @RequestParam("page") int page,
-            @RequestParam("count") int perPage);
+            @RequestParam("count") int perPage,
+            @RequestParam(value = "payment_from", required = false) Integer paymentFrom,
+            @RequestParam(value = "payment_to",   required = false) Integer paymentTo,
+            @RequestParam(value = "experience",   required = false) Integer experience);
 }

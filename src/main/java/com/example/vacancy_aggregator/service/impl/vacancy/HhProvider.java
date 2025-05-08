@@ -5,6 +5,7 @@ import com.example.vacancy_aggregator.client.hh.HhFeign;
 import com.example.vacancy_aggregator.data.vacancy.Vacancy;
 import com.example.vacancy_aggregator.data.vacancy.util.HhMapper;
 import com.example.vacancy_aggregator.location.service.impl.LocationDirectory;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.example.vacancy_aggregator.service.VacancyProvider;
 import com.example.vacancy_aggregator.service.VacancyQuery;
@@ -13,17 +14,18 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class HhProvider implements VacancyProvider {
 
     private final HhFeign client;
     private final HhMapper mapper;
     private final LocationDirectory locDir;
 
-    public HhProvider(HhFeign client, HhMapper mapper, LocationDirectory locDir) {
-        this.client = client;
-        this.mapper = mapper;
-        this.locDir = locDir;
-    }
+//    public HhProvider(HhFeign client, HhMapper mapper, LocationDirectory locDir) {
+//        this.client = client;
+//        this.mapper = mapper;
+//        this.locDir = locDir;
+//    }
 
     @Override
     public String providerName() {
@@ -41,11 +43,16 @@ public class HhProvider implements VacancyProvider {
                         new IllegalArgumentException("Не удалось определить HH-region-id для: " + rawArea)
                 );
 
+        Integer salary = query.salaryFrom();
+        String experience = query.experience() == null ? null : query.experience().toHh();
+
         HhSearchResponse response = client.search(
                 query.text(),
                 hhArea,
                 query.page(),
-                query.perPage());
+                query.perPage(),
+                salary,
+                experience);
 
         return response.items().stream()
                 .map(mapper::toVacancy)
