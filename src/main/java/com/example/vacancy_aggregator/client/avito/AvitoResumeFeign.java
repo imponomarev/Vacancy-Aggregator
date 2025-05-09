@@ -15,6 +15,14 @@ public interface AvitoResumeFeign {
     AvitoResumeSearchResponse search(@RequestParam("text") String text,
                                      @RequestParam("page") int page,
                                      @RequestParam("per_page") int perPage,
-                                     @RequestParam("region_id") int regionId
+                                     @RequestParam("region_id") int regionId,
+                                     @RequestParam(value = "salary_min", required = false) Integer salaryMin,
+                                     @RequestParam(value = "salary_max", required = false) Integer salaryMax,
+                                     @RequestParam(value = "age_min", required = false) Integer ageMin,
+                                     @RequestParam(value = "age_max", required = false) Integer ageMax,
+                                     @RequestParam(value = "experience_min", required = false) Integer experienceMin,
+                                     @RequestParam(value = "experience_max", required = false) Integer experienceMax,
+                                     @RequestParam(value = "schedule", required = false) String schedule,
+                                     @RequestParam(value = "education_level", required = false) String educationLevel
     );
 }

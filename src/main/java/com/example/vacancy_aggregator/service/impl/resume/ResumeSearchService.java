@@ -26,6 +26,9 @@ public class ResumeSearchService {
         }
 
         return providers.stream()
+                .filter(p -> query.providers() == null
+                        || query.providers().isEmpty()
+                        || query.providers().contains(p.providerName()))
                 .flatMap(p -> p.search(query).stream())
                 .toList();
     }

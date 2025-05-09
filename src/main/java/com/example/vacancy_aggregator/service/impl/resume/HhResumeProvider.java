@@ -32,7 +32,12 @@ public class HhResumeProvider implements ResumeProvider {
                 .flatMap(l -> l.hhId().describeConstable())
                 .orElse(q.area());
 
-        var resp = client.search(q.text(), hhArea, q.page(), q.perPage());
+        var resp = client.search(q.text(), hhArea, q.page(), q.perPage(),
+                q.salaryFrom(), q.salaryTo(),
+                q.ageFrom(), q.ageTo(),
+                q.experience() == null ? null : q.experience().hhId,
+                q.schedule() == null ? null : q.schedule().hhId,
+                q.education() == null ? null : q.education().hhId);
 
         return resp.items() == null ? List.of()
                 : java.util.Arrays.stream(resp.items()).map(mapper::toResume).toList();

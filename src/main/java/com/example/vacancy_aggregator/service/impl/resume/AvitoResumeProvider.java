@@ -36,7 +36,13 @@ public class AvitoResumeProvider implements ResumeProvider {
                         "Unknown Avito region: " + q.area()));
 
 
-        var resp = client.search(q.text(), q.page(), q.perPage(), region);
+        var resp = client.search(q.text(), q.page(), q.perPage(), region,
+                q.salaryFrom(), q.salaryTo(),
+                q.ageFrom(), q.ageTo(),
+                q.experience() == null ? null : q.experience().sjFrom / 12, // years → int
+                q.experience() == null ? null : q.experience().sjTo / 12,
+                q.schedule() == null ? null : q.schedule().avitoId,
+                q.education() == null ? null : q.education().avitoId);
 
         return resp.resumes() == null ? List.of()
                 : Arrays.stream(resp.resumes()).map(mapper::toResume).toList();

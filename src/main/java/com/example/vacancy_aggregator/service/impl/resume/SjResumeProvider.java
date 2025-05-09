@@ -27,7 +27,17 @@ public class SjResumeProvider implements ResumeProvider {
     @Override
     @RateLimiter(name = "sj")
     public List<Resume> search(ResumeQuery q) {
-        var resp = client.search(q.text(), q.page(), q.perPage());
+
+        int expFrom = q.experience() == null ? 0 : q.experience().sjFrom;
+        int expTo = q.experience() == null ? 9999 : q.experience().sjTo;
+
+        var resp = client.search(q.text(), q.page(), q.perPage(),
+                q.salaryFrom(), q.salaryTo(),
+                q.ageFrom(), q.ageTo(),
+                expFrom, expTo,
+                q.schedule() == null ? null : q.schedule().sjId,
+                q.education() == null ? null : q.education().sjId);
+
         return resp.objects() == null ? List.of()
                 : Arrays.stream(resp.objects()).map(mapper::toResume).toList();
     }
