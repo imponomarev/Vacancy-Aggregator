@@ -22,8 +22,16 @@ public class VacancySearchService {
                 .stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_PRO"));
 
+        List<String> requested = query.providers();
+
         return providers.stream()
                 .filter(p -> isPro || !"avito".equals(p.providerName()))
+                .filter(p -> {
+                    if (requested == null || requested.isEmpty()) {
+                        return true;
+                    }
+                    return requested.contains(p.providerName());
+                })
                 .flatMap(p -> p.search(query).stream())
                 .toList();
     }
