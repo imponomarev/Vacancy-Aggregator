@@ -1,5 +1,8 @@
 package com.example.vacancy_aggregator.service.util;
 
+/**
+ * Тип занятости (график работы) для резюме.
+ */
 public enum ResumeSchedule {
     FULL_DAY("fullDay", 6, "full-day"),
     SHIFT("shift", 12, "shift"),

@@ -14,6 +14,9 @@ import io.jsonwebtoken.security.Keys;
 
 import java.security.Key;
 
+/**
+ * Компонент для генерации и валидации JWT-токенов.
+ */
 @Component
 @RequiredArgsConstructor
 public class JwtUtil {
@@ -26,14 +29,22 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private long ttl;
 
-    // лучше вынести в application.yaml / secrets
     private Key key;
 
+    /**
+     * Инициализация HMAC-ключа после чтения свойств.
+     */
     @PostConstruct
     void init() {
         key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
+    /**
+     * Генерирует JWT для заданного username.
+     *
+     * @param username имя пользователя (email)
+     * @return скомпонованная JWT строка
+     */
     public String generate(String username) {
 
         var user = uds.loadUserByUsername(username);
@@ -52,6 +63,12 @@ public class JwtUtil {
                 .compact();
     }
 
+    /**
+     * Извлекает subject (username) из JWT.
+     *
+     * @param token JWT строка
+     * @return username (email)
+     */
     public String extractUsername(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build()
                 .parseClaimsJws(token).getBody().getSubject();

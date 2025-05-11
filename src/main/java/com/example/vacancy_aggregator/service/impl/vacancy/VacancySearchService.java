@@ -9,12 +9,22 @@ import com.example.vacancy_aggregator.service.VacancyQuery;
 
 import java.util.List;
 
+/**
+ * Сервис-агрегатор: запускает поиск по всем {@link VacancyProvider},
+ * фильтрует по правам (ROLE_PRO → доступен avito) и по списку выбранных провайдеров.
+ */
 @Service
 @RequiredArgsConstructor
 public class VacancySearchService {
 
     private final List<VacancyProvider> providers;
 
+    /**
+     * Запускает поиск по всем доступным провайдерам и объединяет результаты.
+     *
+     * @param query параметры поиска
+     * @return объединённый список вакансий
+     */
     public List<Vacancy> search(VacancyQuery query) {
 
         boolean isPro = SecurityContextHolder.getContext().getAuthentication()

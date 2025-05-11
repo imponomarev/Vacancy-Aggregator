@@ -16,11 +16,20 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.OffsetDateTime;
 
+/**
+ * Глобальный обработчик исключений для REST-контроллеров.
+ * Перехватывает различные типы исключений и формирует унифицированный
+ * {@link ErrorResponse} с корректным HTTP-статусом и сообщением.
+ */
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
 
+    /**
+     * Обрабатывает ошибки валидации и некорректные аргументы.
+     * Возвращает 400 Bad Request.
+     */
     @ExceptionHandler({
             IllegalArgumentException.class,
             ConstraintViolationException.class,
@@ -31,27 +40,46 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.BAD_REQUEST, ex);
     }
 
+    /**
+     * Обрабатывает ошибки доступа (нет прав).
+     * Возвращает 403 Forbidden.
+     */
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponse> handleForbidden(AccessDeniedException ex) {
         return build(HttpStatus.FORBIDDEN, ex);
     }
 
+    /**
+     * Обрабатывает ошибки аутентификации.
+     * Возвращает 401 Unauthorized.
+     */
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ErrorResponse> handleAuth(AuthenticationException ex) {
         return build(HttpStatus.UNAUTHORIZED, ex);
     }
 
+    /**
+     * Обрабатывает пользовательское исключение «не найдено».
+     * Возвращает 404 Not Found.
+     */
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFound(NotFoundException ex) {
         return build(HttpStatus.NOT_FOUND, ex);
     }
 
+    /**
+     * Обрабатывает не поддерживаемые HTTP-методы.
+     * Возвращает 405 Method Not Allowed.
+     */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<ErrorResponse> handleMethod(HttpRequestMethodNotSupportedException ex) {
         return build(HttpStatus.METHOD_NOT_ALLOWED, ex);
     }
 
-
+    /**
+     * Обрабатывает ошибки Feign-клиентов.
+     * Статус ответа соответствует коду из FeignException или 502 Bad Gateway.
+     */
     @ExceptionHandler(FeignException.class)
     public ResponseEntity<ErrorResponse> handleFeign(FeignException ex) {
         HttpStatus status = HttpStatus.resolve(ex.status());
@@ -63,13 +91,22 @@ public class GlobalExceptionHandler {
         return build(status, ex);
     }
 
-
+    /**
+     * Обрабатывает все остальные необработанные исключения.
+     * Возвращает 500 Internal Server Error.
+     */
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<ErrorResponse> handleAny(Throwable ex) {
         return build(HttpStatus.INTERNAL_SERVER_ERROR, ex);
     }
 
-
+    /**
+     * Вспомогательный метод для построения ответа с телом {@link ErrorResponse}.
+     *
+     * @param http статус HTTP-ответа
+     * @param ex   исключение
+     * @return построенный ResponseEntity
+     */
     private ResponseEntity<ErrorResponse> build(HttpStatus http,
                                                 Throwable ex) {
         log.error("[{}] {}", ex.getMessage(), ex);

@@ -10,7 +10,10 @@ import java.time.ZoneOffset;
 
 import static com.example.vacancy_aggregator.dto.sj.SjSearchResponse.*;
 
-
+/**
+ * Маппер для преобразования элементов {@link SjSearchResponse.SjVacancy}
+ * во внутреннюю модель {@link Vacancy}.
+ */
 @Mapper(componentModel = "spring",
         imports = {
                 OffsetDateTime.class,
@@ -18,6 +21,14 @@ import static com.example.vacancy_aggregator.dto.sj.SjSearchResponse.*;
                 ZoneOffset.class
         })
 public interface SjMapper {
+
+    /**
+     * Конвертация полей SuperJob → Vacancy.
+     * Несопоставленные поля (companyUrl, schedule) игнорируются.
+     *
+     * @param obj исходная запись {@link SjVacancy}
+     * @return готовый объект {@link Vacancy}
+     */
     @Mapping(target = "source", constant = "sj")
     @Mapping(target = "externalId", source = "id")
     @Mapping(target = "title", source = "profession")

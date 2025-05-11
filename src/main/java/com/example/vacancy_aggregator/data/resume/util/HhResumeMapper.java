@@ -9,6 +9,9 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Маппер для преобразования {@link Item} из hh.ru в {@link Resume}.
+ */
 @Mapper(componentModel = "spring",
         imports = {
                 OffsetDateTime.class,
@@ -35,24 +38,24 @@ public interface HhResumeMapper {
     @Mapping(target = "educationLevel", source = "education.level.name")
     @Mapping(target = "experience",
             expression = """
-                java(item.experience() == null
-                     ? List.<ExperienceEntry>of()
-                     : item.experience().stream()
-                        .map(e -> new ExperienceEntry(
-                            e.company(),
-                            e.position(),
-                            e.start() == null ? null :
-                                LocalDate.parse(e.start(), DateTimeFormatter.ISO_LOCAL_DATE)
-                                         .atStartOfDay()
-                                         .atOffset(ZoneOffset.UTC),
-                            e.end()   == null ? null :
-                                LocalDate.parse(e.end(),   DateTimeFormatter.ISO_LOCAL_DATE)
-                                         .atStartOfDay()
-                                         .atOffset(ZoneOffset.UTC),
-                            e.description()
-                        ))
-                        .toList()
-                )
-             """)
+                       java(item.experience() == null
+                            ? List.<ExperienceEntry>of()
+                            : item.experience().stream()
+                               .map(e -> new ExperienceEntry(
+                                   e.company(),
+                                   e.position(),
+                                   e.start() == null ? null :
+                                       LocalDate.parse(e.start(), DateTimeFormatter.ISO_LOCAL_DATE)
+                                                .atStartOfDay()
+                                                .atOffset(ZoneOffset.UTC),
+                                   e.end()   == null ? null :
+                                       LocalDate.parse(e.end(),   DateTimeFormatter.ISO_LOCAL_DATE)
+                                                .atStartOfDay()
+                                                .atOffset(ZoneOffset.UTC),
+                                   e.description()
+                               ))
+                               .toList()
+                       )
+                    """)
     Resume toResume(Item item);
 }

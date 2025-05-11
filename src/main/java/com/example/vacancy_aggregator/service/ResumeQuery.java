@@ -6,6 +6,22 @@ import com.example.vacancy_aggregator.service.util.ResumeSchedule;
 
 import java.util.List;
 
+/**
+ * Параметры, которые приходят из HTTP-запроса /resumes:
+ *
+ * @param text        ключевое слово
+ * @param page        номер страницы
+ * @param perPage     размер страницы
+ * @param area        регион (название или ID)
+ * @param providers   список провайдеров для фильтрации
+ * @param salaryFrom  минимальная зарплата
+ * @param salaryTo    максимальная зарплата
+ * @param ageFrom     минимальный возраст
+ * @param ageTo       максимальный возраст
+ * @param experience  уровень опыта (enum ResumeExperience)
+ * @param schedule    тип занятости (enum ResumeSchedule)
+ * @param education   уровень образования (enum ResumeEducation)
+ */
 public record ResumeQuery(
         String text,
         Integer page,

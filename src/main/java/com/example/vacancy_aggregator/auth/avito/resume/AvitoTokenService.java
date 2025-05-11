@@ -7,6 +7,11 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 
+/**
+ * Кэширует access_token Avito для вакансий и резюме (client_credentials).
+ * При первом запросе или после истечения:
+ * вызывает {@link AvitoAuthFeign}, сохраняет токен и время expiresAt.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -18,6 +23,11 @@ public class AvitoTokenService {
     private volatile String token;
     private volatile Instant expiresAt = Instant.EPOCH;
 
+    /**
+     * Возвращает валидный токен или запрашивает новый при необходимости.
+     *
+     * @return строка access_token
+     */
     public synchronized String token() {
 
         if (token != null && Instant.now().isBefore(expiresAt)) {

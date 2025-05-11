@@ -7,6 +7,10 @@ import org.mapstruct.*;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Маппер для преобразования элементов Avito Resume API ({@link Item})
+ * в унифицированный DTO {@link Resume}.
+ */
 @Mapper(componentModel = "spring",
         imports = {OffsetDateTime.class, DateTimeFormatter.class})
 public interface AvitoResumeMapper {

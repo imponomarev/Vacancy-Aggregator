@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST-контроллер для поиска резюме.
+ * Доступен только для пользователей с ролью PRO.
+ */
 @RestController
 @RequestMapping("/resumes")
 @RequiredArgsConstructor
@@ -18,6 +22,23 @@ public class ResumeController {
 
     private final ResumeSearchService service;
 
+    /**
+     * Выполняет поиск резюме по заданному запросу.
+     *
+     * @param text        ключевые слова для поиска
+     * @param area        регион (название или ID)
+     * @param page        номер страницы
+     * @param perPage     количество результатов на страницу
+     * @param providers   список провайдеров ("hh", "sj", "avito"), необязательный
+     * @param salaryFrom  минимальная ожидаемая зарплата, необязательный
+     * @param salaryTo    максимальная ожидаемая зарплата, необязательный
+     * @param ageFrom     минимальный возраст, необязательный
+     * @param ageTo       максимальный возраст, необязательный
+     * @param experience  уровень опыта (enum ResumeExperience), необязательный
+     * @param schedule    тип занятости (enum ResumeSchedule), необязательный
+     * @param education   уровень образования (enum ResumeEducation), необязательный
+     * @return список DTO {@link Resume}
+     */
     @GetMapping
     public List<Resume> search(@RequestParam String text,
                                @RequestParam String area,

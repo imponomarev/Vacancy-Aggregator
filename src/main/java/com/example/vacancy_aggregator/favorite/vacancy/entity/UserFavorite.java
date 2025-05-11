@@ -7,6 +7,9 @@ import lombok.Setter;
 
 import java.time.OffsetDateTime;
 
+/**
+ * Сущность «Избранная вакансия» пользователя.
+ */
 @Entity
 @Table(name = "user_favorites",
         uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "source", "external_id"}))

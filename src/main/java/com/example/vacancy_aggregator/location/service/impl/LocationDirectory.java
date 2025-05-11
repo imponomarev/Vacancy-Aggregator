@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * Сервис-слой для единой точки доступа к справочнику локаций.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -23,8 +26,14 @@ public class LocationDirectory {
     private final AvitoLocationService avito;
 
     /**
-     * Пытается найти или получить заново и закэшировать Location для заданного any:
-     * – any может быть hh-ID, sj-ID (число в строке) или человекочитаемым названием.
+     * Разрешает входное значение {@code any} в объект {@link Location}, используя кэш или внешние API.
+     *
+     * @param any может быть:
+     *            HH ID (строка)
+     *            SJ ID (число в строковом виде)
+     *            Avito ID (строка)
+     *            Человекочитаемое название (например, "Москва")
+     * @return Optional с найденной или вновь созданной записью {@link Location}, иначе пустой
      */
     public Optional<Location> resolve(String any) {
 
@@ -65,7 +74,10 @@ public class LocationDirectory {
     }
 
     /**
-     * Вызывает HH-Suggest, возвращает первый точный match по text==name или null.
+     * Вызывает HH-suggest для поиска региона по точному совпадению текста.
+     *
+     * @param name входное название региона
+     * @return строковый HH ID или null, если не найден
      */
     private String fetchHhId(String name) {
         if (name.length() < 2) {
@@ -85,7 +97,10 @@ public class LocationDirectory {
     }
 
     /**
-     * Вызывает SJ-Towns, возвращает первый точный match по title==name или null.
+     * Вызывает SuperJob API для поиска города по точному совпадению.
+     *
+     * @param name входное название города
+     * @return числовой SJ ID или null, если не найден
      */
     private Long fetchSjId(String name) {
         try {

@@ -10,6 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * Сервис для управления «лайками» (избранными вакансиями) пользователя.
+ */
 @Service
 @RequiredArgsConstructor
 public class FavoriteService {
@@ -17,7 +20,11 @@ public class FavoriteService {
     private final UserFavoriteRepository repository;
 
     /**
-     * Добавить лайк
+     * Добавляет вакансию в избранные текущего пользователя.
+     * Если такая вакансия уже есть, дубли не создаются.
+     *
+     * @param user объект {@link User} — текущий пользователь
+     * @param v    объект {@link Vacancy} для добавления
      */
     @Transactional
     public void like(User user, Vacancy v) {
@@ -44,7 +51,11 @@ public class FavoriteService {
     }
 
     /**
-     * Удалить лайк
+     * Убирает вакансию из избранных текущего пользователя.
+     *
+     * @param user       объект {@link User} — текущий пользователь
+     * @param source     источник вакансии ("hh", "sj" или "avito")
+     * @param externalId внешний идентификатор вакансии
      */
     @Transactional
     public void unlike(User user, String source, String externalId) {
@@ -52,7 +63,10 @@ public class FavoriteService {
     }
 
     /**
-     * Получить все лайки текущего пользователя
+     * Получает все избранные вакансии текущего пользователя.
+     *
+     * @param user объект {@link User} — текущий пользователь
+     * @return список {@link Vacancy}, собранных из сохраняемых в БД сущностей
      */
     @Transactional(readOnly = true)
     public List<Vacancy> list(User user) {

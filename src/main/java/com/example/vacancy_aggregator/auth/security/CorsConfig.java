@@ -4,6 +4,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * Разрешает CORS-запросы с фронтенда.
+ * Позволяет все методы и заголовки, передаёт куки.
+ */
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
     @Override

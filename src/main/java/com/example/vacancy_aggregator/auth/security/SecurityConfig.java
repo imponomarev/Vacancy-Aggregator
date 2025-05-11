@@ -14,6 +14,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * Общая конфигурация Spring Security:
+ */
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
@@ -21,11 +24,17 @@ public class SecurityConfig {
     private final JwtFilter jwtFilter;
     private final UserDetailsService uds;
 
+    /**
+     * Парольный энкодер BCrypt.
+     */
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Провайдер аутентификации с BCrypt и нашим UserDetailsService.
+     */
     @Bean
     public DaoAuthenticationProvider authProvider() {
         DaoAuthenticationProvider p = new DaoAuthenticationProvider();
@@ -34,11 +43,23 @@ public class SecurityConfig {
         return p;
     }
 
+    /**
+     * Враппер над AuthenticationManager из контекста.
+     */
     @Bean
     public AuthenticationManager authManager(AuthenticationConfiguration cfg) throws Exception {
         return cfg.getAuthenticationManager();
     }
 
+    /**
+     * Основной фильтр-чейн:
+     * разрешает CORS и опции;
+     * отключает CSRF;
+     * разрешает публичный доступ к /auth/**, /yookassa/webhook, Swagger;
+     * все остальные запросы требуют аутентификации;
+     * добавляет {@link JwtFilter};
+     * включает basic auth (для отладки).
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors(Customizer.withDefaults())

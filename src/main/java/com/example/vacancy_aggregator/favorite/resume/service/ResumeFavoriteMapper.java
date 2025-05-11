@@ -5,12 +5,20 @@ import com.example.vacancy_aggregator.favorite.resume.entity.UserResumeFavorite;
 
 import java.util.List;
 
+/**
+ * Утилитный класс для преобразования между {@link Resume} и сущностью
+ * {@link UserResumeFavorite}.
+ */
 public final class ResumeFavoriteMapper {
 
     private ResumeFavoriteMapper() { /* static only */ }
 
     /**
-     * Строит новую сущность избранного из Resume и User.
+     * Конвертирует DTO резюме и пользователя в новую сущность UserResumeFavorite.
+     *
+     * @param r    DTO резюме
+     * @param user пользователь, добавляющий в избранное
+     * @return заполненная сущность для сохранения в БД
      */
     public static UserResumeFavorite toEntity(Resume r, com.example.vacancy_aggregator.auth.entity.User user) {
         UserResumeFavorite f = new UserResumeFavorite();
@@ -45,7 +53,11 @@ public final class ResumeFavoriteMapper {
     }
 
     /**
-     * Преобразует сохранённую сущность в объект Resume для вывода клиенту.
+     * Преобразует сохранённую сущность UserResumeFavorite в DTO Resume
+     * для передачи клиенту.
+     *
+     * @param f сущность из БД
+     * @return DTO Resume с данными избранного
      */
     public static Resume toDto(UserResumeFavorite f) {
         List<Resume.ExperienceEntry> exp = f.getExperience().stream()

@@ -7,6 +7,11 @@ import org.springframework.context.annotation.Bean;
 
 import java.time.Duration;
 
+/**
+ * Конфигурация Feign для SuperJob Resume:
+ * Добавляет заголовки X-Api-App-Id и Authorization (Bearer token)
+ * Настраивает RateLimiter по значению из настроек
+ */
 public class SjResumeFeignConfig {
 
     @Value("${sj.api.app-id}")
@@ -15,6 +20,9 @@ public class SjResumeFeignConfig {
     @Value("${sj.api.token}")
     private String token;
 
+    /**
+     * Интерцептор для добавления заголовков авторизации.
+     */
     @Bean
     public RequestInterceptor sjHeadersInterceptor() {
         return request -> {
@@ -26,6 +34,9 @@ public class SjResumeFeignConfig {
         };
     }
 
+    /**
+     * Конфиг Resilience4j RateLimiter.
+     */
     @Bean
     public RateLimiterConfig sjRateLimiter(@Value("${sj.api.rate-limit-per-min}") int limit) {
         return RateLimiterConfig.custom()

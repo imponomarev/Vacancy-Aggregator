@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Реализация {@link ResumeProvider} для провайдера SuperJob.
+ */
 @Service
 @RequiredArgsConstructor
 public class SjResumeProvider implements ResumeProvider {
@@ -24,6 +27,12 @@ public class SjResumeProvider implements ResumeProvider {
         return "sj";
     }
 
+    /**
+     * Выполняет запрос к SuperJob и возвращает список резюме.
+     *
+     * @param q параметры поиска, см. {@link ResumeQuery}
+     * @return список DTO {@link Resume}
+     */
     @Override
     @RateLimiter(name = "sj")
     public List<Resume> search(ResumeQuery q) {

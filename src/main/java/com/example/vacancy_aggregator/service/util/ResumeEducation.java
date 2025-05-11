@@ -1,5 +1,8 @@
 package com.example.vacancy_aggregator.service.util;
 
+/**
+ * Уровень образования для резюме.
+ */
 public enum ResumeEducation {
     SECONDARY("secondary", 5, "secondary"),
     SPECIAL_SECONDARY("special_secondary", 4, "special-secondary"),

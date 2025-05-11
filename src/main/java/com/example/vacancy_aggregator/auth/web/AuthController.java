@@ -11,6 +11,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * REST-контроллер для регистрации и логина пользователей.
+ */
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -21,6 +24,13 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil util;
 
+
+    /**
+     * Регистрирует нового пользователя.
+     *
+     * @param email адрес электронной почты
+     * @param pwd   пароль в открытом виде
+     */
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestParam String email, @RequestParam String pwd) {
 
@@ -36,6 +46,13 @@ public class AuthController {
         return ResponseEntity.ok("created");
     }
 
+    /**
+     * Аутентифицирует пользователя и выдаёт JWT.
+     *
+     * @param email адрес электронной почты
+     * @param pwd   пароль
+     * @return 200 OK с телом типа JwtToken
+     */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestParam String email, @RequestParam String pwd) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, pwd));

@@ -16,6 +16,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/**
+ * Фильтр для разбора и проверки JWT из заголовка Authorization.
+ */
 @Component
 @RequiredArgsConstructor
 @Slf4j

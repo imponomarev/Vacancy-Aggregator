@@ -14,21 +14,31 @@ import java.nio.charset.StandardCharsets;
 import static com.example.vacancy_aggregator.dto.yookassa.YkDto.*;
 
 /**
- * Принимает уведомления от YooKassa:
- *   – проверяет HMAC-подпись
- *   – если платёж «succeeded», отмечает его в БД.
+ * Контроллер для приёма Webhook-уведомлений от YooKassa.
+ * Процедура обработки:
+ * Верификация HMAC-подписи из заголовка Content-Hmac-Sha256;
+ * Десериализация JSON в {@link PaymentSucceededNotification};
  */
 @RestController
 @RequestMapping("/yookassa/webhook")
 @RequiredArgsConstructor
 public class YooKassaWebhook {
 
-    private final YooKassaService  service;
-    private final ObjectMapper     mapper = new ObjectMapper();
+    private final YooKassaService service;
+    private final ObjectMapper mapper = new ObjectMapper();
 
+    /**
+     * Секрет для HMAC, настраивается в кабинете YooKassa
+     */
     @Value("${yookassa.webhook-secret}")
-    String secret;   // задаётся в кабинете магазина
+    String secret;
 
+    /**
+     * Принимает POST запрос от YooKassa с телом уведомления.
+     *
+     * @param sig  заголовок Content-Hmac-Sha256 — HMAC-подпись тела
+     * @param body необработанное тело JSON
+     */
     @PostMapping
     public ResponseEntity<String> handle(@RequestHeader("Content-Hmac-Sha256") String sig,
                                          @RequestBody String body) {

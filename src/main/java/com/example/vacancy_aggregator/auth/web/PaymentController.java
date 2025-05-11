@@ -8,19 +8,25 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-
-
 /**
- * Создаёт счёт в YooKassa на 299 ₽ и отдаёт фронту URL для оплаты.
+ * REST-контроллер для создания платежей через YooKassa.
+ * Предназначен для генерации счёта на покупку PRO-доступа (299 ₽) и
+ * передачи фронтенду URL для перенаправления пользователя на оплату.
  */
 @RestController
 @RequestMapping("/payments")
 @RequiredArgsConstructor
 public class PaymentController {
 
-    private final UserRepository    users;
+    private final UserRepository users;
     private final YooKassaService kassaService;
 
+    /**
+     * Инициализирует платёж на PRO-доступ для текущего пользователя.
+     *
+     * @param userDetails данные аутентифицированного пользователя
+     * @return URL для редиректа пользователя на страницу оплаты в YooKassa
+     */
     @PostMapping("/pro")
     public String buyPro(@AuthenticationPrincipal UserDetails userDetails) {
 

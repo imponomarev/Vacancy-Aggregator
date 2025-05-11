@@ -6,6 +6,9 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * Feign-клиент для Avito Resume API.
+ */
 @FeignClient(name = "avitoResumes",
         url = "${avito.api.base-url}",
         configuration = AvitoResumeFeignConfig.class)

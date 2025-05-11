@@ -13,6 +13,11 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Провайдер резюме для Avito.
+ * Выполняет поиск резюме через Avito Resume API и маппит результаты
+ * в единое DTO {@link Resume}.
+ */
 @Service
 @RequiredArgsConstructor
 public class AvitoResumeProvider implements ResumeProvider {
@@ -26,6 +31,11 @@ public class AvitoResumeProvider implements ResumeProvider {
         return "avito";
     }
 
+    /**
+     * Ищет резюме на Avito по параметрам из {@link ResumeQuery}.
+     *
+     * @return список найденных резюме
+     */
     @Override
     @RateLimiter(name = "avito")
     public List<Resume> search(ResumeQuery q) {

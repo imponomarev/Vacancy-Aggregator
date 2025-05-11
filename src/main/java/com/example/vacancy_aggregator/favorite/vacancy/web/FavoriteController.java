@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST-контроллер для работы с избранными (лайкнутыми) вакансиями текущего пользователя.
+ */
 @RestController
 @RequestMapping("/favorites")
 @RequiredArgsConstructor
@@ -19,14 +22,25 @@ public class FavoriteController {
     private final UserRepository users;
 
 
-    /** Добавить лайк */
+    /**
+     * Добавляет вакансию в список избранных для текущего пользователя.
+     *
+     * @param ud аутентифицированный пользователь
+     * @param v  вакансия, которую пользователь лайкает
+     */
     @PostMapping
     public void like(@AuthenticationPrincipal UserDetails ud,
                      @RequestBody Vacancy v) {
         service.like(users.findByEmail(ud.getUsername()).orElseThrow(), v);
     }
 
-    /** Убрать лайк */
+    /**
+     * Убирает вакансию из списка избранных для текущего пользователя.
+     *
+     * @param ud         аутентифицированный пользователь
+     * @param source     источник вакансии ("hh", "sj" или "avito")
+     * @param externalId внешний идентификатор вакансии в этом источнике
+     */
     @DeleteMapping("/{source}/{externalId}")
     public void unlike(@AuthenticationPrincipal UserDetails ud,
                        @PathVariable String source,
@@ -34,7 +48,12 @@ public class FavoriteController {
         service.unlike(users.findByEmail(ud.getUsername()).orElseThrow(), source, externalId);
     }
 
-    /** Список лайков */
+    /**
+     * Возвращает список всех избранных вакансий текущего пользователя.
+     *
+     * @param ud аутентифицированный пользователь
+     * @return список {@link Vacancy}
+     */
     @GetMapping
     public List<Vacancy> list(@AuthenticationPrincipal UserDetails ud) {
         return service.list(users.findByEmail(ud.getUsername()).orElseThrow());

@@ -9,6 +9,10 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 
+/**
+ * Feign-RequestInterceptor, который вставляет OAuth2-токен в заголовок
+ * Authorization для запросов к Авито (vacancies).
+ */
 public class AvitoFeignOAuth2Interceptor implements RequestInterceptor {
 
     private final OAuth2AuthorizedClientManager authClientManager;

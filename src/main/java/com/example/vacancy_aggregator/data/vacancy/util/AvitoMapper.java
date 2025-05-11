@@ -7,6 +7,12 @@ import org.mapstruct.*;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Маппер для Avito → Vacancy.
+ * Преобразует {@link AvitoSearchResponse.Item} в {@link Vacancy}.
+ * Поля companyUrl, experienceReq, employmentType, schedule игнорируются,
+ * так как не подставляются из Avito Search API.
+ */
 @Mapper(componentModel = "spring",
         imports = {OffsetDateTime.class, DateTimeFormatter.class})
 public interface AvitoMapper {
@@ -26,10 +32,4 @@ public interface AvitoMapper {
                     + "OffsetDateTime.parse(item.published_at(), DateTimeFormatter.ISO_OFFSET_DATE_TIME))")
     @Mapping(target = "url", source = "link")
     Vacancy toVacancy(AvitoSearchResponse.Item item);
-
-
-    default OffsetDateTime parse(String ts) {
-        return ts == null ? null :
-                OffsetDateTime.parse(ts, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-    }
 }

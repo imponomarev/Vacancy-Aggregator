@@ -7,8 +7,12 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.stereotype.Repository;
 
 import java.time.Duration;
-import java.util.*;
+import java.util.Optional;
 
+/**
+ * Реализация {@link LocationRepository} на основе in-memory кэша Caffeine.
+ * Кэш хранит до 2 дней:
+ */
 @Repository
 public class InMemoryLocationRepository implements LocationRepository {
 

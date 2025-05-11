@@ -12,6 +12,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Реализация {@link ResumeProvider} для hh.ru.
+ * Добавляет HTTP-заголовок Authorization (Bearer app-token).
+ * Преобразует enum-значения в параметры API.
+ */
 @Service
 @RequiredArgsConstructor
 public class HhResumeProvider implements ResumeProvider {

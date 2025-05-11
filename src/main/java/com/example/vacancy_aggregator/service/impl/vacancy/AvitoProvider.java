@@ -13,12 +13,24 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * {@link VacancyProvider} для поиска вакансий на платформе Авито.
+ */
 @Service
 @RequiredArgsConstructor
 public class AvitoProvider implements VacancyProvider {
 
+    /**
+     * Feign-клиент для обращения к Avito-API вакансий
+     */
     private final AvitoFeign feign;
+    /**
+     * Маппер для конвертации данных из {@link AvitoSearchResponse} в {@link Vacancy}
+     */
     private final AvitoMapper mapper;
+    /**
+     * Сервис разрешения текстовых названий регионов в Avito-ID
+     */
     private final AvitoLocationService avitoLoc;
 
     @Override
@@ -26,6 +38,16 @@ public class AvitoProvider implements VacancyProvider {
         return "avito";
     }
 
+    /**
+     * Выполняет поиск вакансий на Авито.
+     * Разрешает переданный текстовый регион в числовой идентификатор.
+     * Вызывает Feign-клиент {@link AvitoFeign#search(String, int, int, int)}.
+     * Преобразует полученный список через {@link AvitoMapper} в {@link Vacancy}.
+     *
+     * @param query параметры поиска: текст запроса, страница, размер страницы, регион
+     * @return список вакансий в формате {@link Vacancy}
+     * @throws IllegalArgumentException если регион не найден в справочнике Avito
+     */
     @Override
     @RateLimiter(name = "avito")
     public List<Vacancy> search(VacancyQuery query) {

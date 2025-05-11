@@ -7,7 +7,8 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 /**
- * Содержит ВСЕ необходимые модели для createPayment + webhook.
+ * Набор record-классов для сериализации/десериализации
+ * запросов и ответов YooKassa v3.
  */
 public interface YkDto {
 

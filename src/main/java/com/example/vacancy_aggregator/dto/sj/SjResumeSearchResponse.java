@@ -4,10 +4,34 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
+/**
+ * DTO-ответ SuperJob Resume API.
+ *
+ * @param objects массив найденных резюме
+ * @param total   общее число найденных резюме
+ */
 public record SjResumeSearchResponse(
         @JsonProperty("objects") Item[] objects,
         int total
 ) {
+    /**
+     * Вложенный DTO для одной записи резюме.
+     *
+     * @param id                   уникальный ID резюме
+     * @param firstName            имя соискателя
+     * @param lastName             фамилия соискателя
+     * @param position             должность
+     * @param town                 город (DTO {@link Town})
+     * @param payment              ожидаемая зарплата
+     * @param currency             валюта
+     * @param updatedAt            время последнего изменения (epoch seconds)
+     * @param age                  возраст
+     * @param experienceMonthTotal общий опыт работы в месяцах
+     * @param link                 ссылка на резюме
+     * @param gender               пол (DTO {@link Gender})
+     * @param education            образование (DTO {@link Education})
+     * @param workHistory          история работ (список DTO {@link WorkHistory})
+     */
     public record Item(
             @JsonProperty("id") long id,
             @JsonProperty("firstname") String firstName,

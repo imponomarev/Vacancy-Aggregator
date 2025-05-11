@@ -10,6 +10,9 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Сущность «избранное резюме» для пользователя.
+ */
 @Entity
 @Table(name = "user_resume_favorites",
         uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "source", "external_id"}))
@@ -58,6 +61,10 @@ public class UserResumeFavorite {
     @Column(name = "created_at")
     private OffsetDateTime createdAt = OffsetDateTime.now();
 
+    /**
+     * Хронология опыта работы,
+     * сохраняется в отдельной таблице user_resume_experience.
+     */
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name = "user_resume_experience",
@@ -74,6 +81,9 @@ public class UserResumeFavorite {
     })
     private List<ExperienceEntry> experience = new ArrayList<>();
 
+    /**
+     * Встроенный класс для хранения одной записи опыта работы.
+     */
     @Embeddable
     @Data
     @NoArgsConstructor

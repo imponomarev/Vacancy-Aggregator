@@ -8,6 +8,10 @@ import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
+/**
+ * Маппер для преобразования {@link Item} SuperJob Resume API
+ * в универсальный DTO {@link Resume}.
+ */
 @Mapper(componentModel = "spring",
         imports = {OffsetDateTime.class, Instant.class, ZoneOffset.class, Resume.ExperienceEntry.class})
 public interface SjResumeMapper {

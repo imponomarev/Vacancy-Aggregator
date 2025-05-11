@@ -11,6 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * Сервис для работы с избранными резюме.
+ * Обеспечивает добавление, удаление и получение списка избранных резюме.
+ * Доступен только пользователям с ролью PRO.
+ */
 @Service
 @RequiredArgsConstructor
 public class ResumeFavoriteService {
@@ -18,7 +23,10 @@ public class ResumeFavoriteService {
     private final UserResumeFavoriteRepository repository;
 
     /**
-     * Добавить лайк
+     * Добавляет резюме в избранное.
+     *
+     * @param user текущий пользователь
+     * @param r    DTO резюме
      */
     @Transactional
     public void like(User user, Resume r) {
@@ -30,7 +38,11 @@ public class ResumeFavoriteService {
     }
 
     /**
-     * Удалить лайк
+     * Удаляет резюме из избранного.
+     *
+     * @param user       текущий пользователь
+     * @param source     код провайдера резюме
+     * @param externalId внешний идентификатор резюме
      */
     @Transactional
     public void unlike(User user, String source, String externalId) {
@@ -39,7 +51,10 @@ public class ResumeFavoriteService {
     }
 
     /**
-     * Список лайков
+     * Возвращает все избранные резюме пользователя.
+     *
+     * @param user текущий пользователь
+     * @return список DTO резюме
      */
     @Transactional(readOnly = true)
     public List<Resume> list(User user) {
@@ -50,6 +65,11 @@ public class ResumeFavoriteService {
                 .toList();
     }
 
+    /**
+     * Проверяет, что текущий пользователь имеет роль PRO.
+     *
+     * @throws AccessDeniedException если роль не PRO
+     */
     private void requirePro() {
         boolean pro = SecurityContextHolder.getContext()
                 .getAuthentication().getAuthorities()

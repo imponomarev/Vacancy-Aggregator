@@ -12,9 +12,21 @@ import java.time.format.DateTimeFormatterBuilder;
 
 import static com.example.vacancy_aggregator.dto.hh.HhSearchResponse.*;
 
+/**
+ * Маппер для преобразования {@link HhSearchResponse.HhVacancyItem}
+ * во внутренний DTO {@link Vacancy}.
+ */
 @Mapper(componentModel = "spring")
 public interface HhMapper {
 
+    /**
+     * Основной метод конвертации одной записи HH в Vacancy.
+     * По умолчанию любой null-элемент внутри {@link HhVacancyItem}
+     * будет заменён на default-значение (RETURN_DEFAULT).
+     *
+     * @param item исходный элемент HH API
+     * @return собранный объект {@link Vacancy}
+     */
     @BeanMapping(nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT)
     @Mapping(target = "source", constant = "hh")
     @Mapping(target = "externalId", source = "id")
@@ -34,6 +46,13 @@ public interface HhMapper {
     Vacancy toVacancy(HhVacancyItem item);
 
 
+    /**
+     * Вспомогательный метод для парсинга строки published_at в OffsetDateTime.
+     * Поддерживает формат ISO_LOCAL_DATE_TIME + смещение +HHmm.
+     *
+     * @param publishedAt строка с датой из HH API
+     * @return OffsetDateTime или null если строка пустая/null
+     */
     default OffsetDateTime mapPublishedAt(String publishedAt) {
 
         DateTimeFormatter flexFmt = new DateTimeFormatterBuilder()

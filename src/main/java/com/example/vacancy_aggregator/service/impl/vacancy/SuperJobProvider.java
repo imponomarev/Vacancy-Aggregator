@@ -15,13 +15,27 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Реализация {@link VacancyProvider} для SuperJob.
+ * Отвечает за сбор и преобразование данных из API SuperJob
+ * в унифицированную модель {@link Vacancy}.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class SuperJobProvider implements VacancyProvider {
 
+    /**
+     * Feign-клиент для обращения к SuperJob API
+     */
     private final SjFeign client;
+    /**
+     * Маппер для конвертации {@link SjSearchResponse.SjVacancy} → {@link Vacancy}
+     */
     private final SjMapper mapper;
+    /**
+     * Сервис разрешения текстовых названий регионов в ID SuperJob
+     */
     private final LocationDirectory locDir;
 
     @Override
@@ -29,6 +43,15 @@ public class SuperJobProvider implements VacancyProvider {
         return "sj";
     }
 
+    /**
+     * Поиск вакансий в SuperJob.
+     * Разрешение текстового региона в числовой ID через {@link LocationDirectory}.
+     * Выполнение Feign-запроса к /2.0/vacancies.
+     * Преобразование полученных объектов через {@link SjMapper}.
+     *
+     * @param query параметры поиска.
+     * @return список вакансий в виде {@link Vacancy}
+     */
     @Override
     @RateLimiter(name = "sj")
     public List<Vacancy> search(VacancyQuery query) {

@@ -6,6 +6,9 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * Feign-клиент для SuperJob Resume API.
+ */
 @FeignClient(name = "sjResumes", url = "${sj.api.resume-url}", configuration = SjResumeFeignConfig.class)
 public interface SjResumeFeign {
 

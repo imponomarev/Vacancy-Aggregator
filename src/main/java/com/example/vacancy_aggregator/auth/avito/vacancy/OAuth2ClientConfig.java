@@ -8,15 +8,22 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProvider
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 
+/**
+ * Общая конфигурация OAuth2-клиента для Avito:
+ * поддержка authorization_code + refresh_token.
+ */
 @Configuration
 public class OAuth2ClientConfig {
 
+    /**
+     * Создает {@link OAuth2AuthorizedClientManager}, который умеет
+     * выполнять Authorization Code flow и автоматически обновлять токены.
+     */
     @Bean
     public OAuth2AuthorizedClientManager authorizedClientManager(
             ClientRegistrationRepository clients,
             OAuth2AuthorizedClientService clientService) {
 
-        // поддержка authorization_code и refresh_token
         var provider = OAuth2AuthorizedClientProviderBuilder.builder()
                 .authorizationCode()
                 .refreshToken()

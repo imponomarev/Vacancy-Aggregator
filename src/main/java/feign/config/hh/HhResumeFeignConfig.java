@@ -4,6 +4,10 @@ import feign.RequestInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 
+/**
+ * Конфигурация Feign для hh.ru Resume:
+ * подставляет Authorization: Bearer {app-token}.
+ */
 public class HhResumeFeignConfig {
 
     @Value("${hh.api.app-token}")

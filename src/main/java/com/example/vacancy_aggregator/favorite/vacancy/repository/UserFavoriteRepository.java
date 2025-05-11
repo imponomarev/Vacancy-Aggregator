@@ -6,6 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * JPA-репозиторий для сущности {@link UserFavorite}.
+ */
 public interface UserFavoriteRepository extends JpaRepository<UserFavorite, Long> {
 
     Optional<UserFavorite> findByUserIdAndSourceAndExternalId(Long userId, String source, String externalId);

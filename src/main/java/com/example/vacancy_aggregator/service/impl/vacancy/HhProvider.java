@@ -5,6 +5,7 @@ import com.example.vacancy_aggregator.client.hh.HhFeign;
 import com.example.vacancy_aggregator.data.vacancy.Vacancy;
 import com.example.vacancy_aggregator.data.vacancy.util.HhMapper;
 import com.example.vacancy_aggregator.location.service.impl.LocationDirectory;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.example.vacancy_aggregator.service.VacancyProvider;
@@ -13,6 +14,9 @@ import com.example.vacancy_aggregator.service.VacancyQuery;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Поставка вакансий с HH.ru.
+ */
 @Service
 @RequiredArgsConstructor
 public class HhProvider implements VacancyProvider {
@@ -21,19 +25,16 @@ public class HhProvider implements VacancyProvider {
     private final HhMapper mapper;
     private final LocationDirectory locDir;
 
-//    public HhProvider(HhFeign client, HhMapper mapper, LocationDirectory locDir) {
-//        this.client = client;
-//        this.mapper = mapper;
-//        this.locDir = locDir;
-//    }
-
     @Override
     public String providerName() {
         return "hh";
     }
 
+    /**
+     * Вызывает HH API /vacancies с дополнительными фильтрами
+     */
     @Override
-    @io.github.resilience4j.ratelimiter.annotation.RateLimiter(name = "hh")
+    @RateLimiter(name = "hh")
     public List<Vacancy> search(VacancyQuery query) {
 
         String rawArea = query.area();

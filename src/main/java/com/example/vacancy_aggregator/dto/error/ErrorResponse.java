@@ -6,6 +6,10 @@ import lombok.Getter;
 
 import java.time.OffsetDateTime;
 
+/**
+ * Унифицированная модель ответа об ошибке.
+ * Содержит HTTP-статус, читаемое сообщение и метку времени.
+ */
 @Getter
 @Builder
 public class ErrorResponse {

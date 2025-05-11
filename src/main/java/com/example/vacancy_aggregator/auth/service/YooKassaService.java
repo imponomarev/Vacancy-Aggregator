@@ -17,7 +17,7 @@ import java.util.Map;
 import static com.example.vacancy_aggregator.dto.yookassa.YkDto.*;
 
 /**
- * Тонкая обёртка над Feign-клиентом YooKassa.
+ * Сервис-обёртка над Feign-клиентом YooKassa.
  * Отвечает за создание платежа и пост-обработку статусов.
  */
 @Service
@@ -28,13 +28,17 @@ public class YooKassaService {
     private final YooKassaFeign feign;
     private final PaymentRepository payments;
 
+    /**
+     * URL для возврата пользователя после оплаты (redirect).
+     */
     @Value("${yookassa.return-url}")
     private String returnUrl;
 
     /**
-     * Создаёт платёж в YooKassa, но НЕ сохраняет его в БД
+     * Создаёт новый платёж на фиксированную сумму 299 ₽.
      *
-     * @return объект ответа CreatePaymentRs с id и confirmationUrl
+     * @param user текущий {@link User}, приобретающий PRO-доступ
+     * @return URL для перенаправления на оплату
      */
     public String createPayment(User user) {
         try {
@@ -65,7 +69,9 @@ public class YooKassaService {
     }
 
     /**
-     * Помечаем платёж как успешный и повышаем роль пользователя.
+     * Помечает платёж успешным и повышает роль пользователя до PRO.
+     *
+     * @param ykPaymentId идентификатор платежа в YooKassa
      */
     public void markSucceeded(String ykPaymentId) {
         payments.findByYkPaymentId(ykPaymentId).ifPresent(pay -> {

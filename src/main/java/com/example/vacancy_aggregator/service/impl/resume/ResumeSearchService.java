@@ -10,12 +10,22 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Сервис-агрегатор, который запускает поиск резюме во всех
+ * внедрённых {@link ResumeProvider} по запросу {@link ResumeQuery}.
+ */
 @Service
 @RequiredArgsConstructor
 public class ResumeSearchService {
 
     private final List<ResumeProvider> providers;
 
+    /**
+     * Выполняет поиск, фильтруя по списку провайдеров из запроса.
+     *
+     * @param query параметры поиска
+     * @return объединённый список резюме
+     */
     public List<Resume> search(ResumeQuery query) {
         boolean isPro = SecurityContextHolder.getContext()
                 .getAuthentication().getAuthorities()

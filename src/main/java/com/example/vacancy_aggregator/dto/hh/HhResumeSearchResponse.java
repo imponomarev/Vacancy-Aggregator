@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-
+/**
+ * Ответ hh.ru Resume API.
+ */
 public record HhResumeSearchResponse(
         @JsonProperty("items") Item[] items,
         @JsonProperty("found") int found,
